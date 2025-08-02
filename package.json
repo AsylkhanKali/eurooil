@@ -1,0 +1,29 @@
+{
+  "name": "eurooil",
+  "version": "1.0.0",
+  "description": "EuroOil - Ведущий поставщик нефтепродуктов в Казахстане",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "build": "echo 'Static site - no build required'",
+    "dev": "npx serve ."
+  },
+  "keywords": [
+    "eurooil",
+    "нефтепродукты",
+    "казахстан",
+    "павлодар",
+    "топливо",
+    "азс"
+  ],
+  "author": "EuroOil Team",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/eurooil.git"
+  },
+  "homepage": "https://eurooil.vercel.app"
+} 
