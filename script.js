@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Number Counter Animation
-    function animateCounter(element, target, duration = 2000) {
+    function animateCounter(element, target, duration = 1300) {
         let start = 0;
         const increment = target / (duration / 16);
         
@@ -89,11 +89,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
-        addDebugLog('Форма найдена, добавляем PHP обработчик');
+        console.log('Форма найдена, добавляем PHP обработчик');
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            addDebugLog('=== НАЧАЛО ОТПРАВКИ ФОРМЫ НА PHP ===');
+            console.log('=== НАЧАЛО ОТПРАВКИ ФОРМЫ НА PHP ===');
             
             // Get form elements
             const nameInput = document.getElementById('name');
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const submitButton = contactForm.querySelector('button[type="submit"]');
             const notification = document.getElementById('formNotification');
             
-            addDebugLog('Элементы формы найдены');
+            console.log('Элементы формы найдены');
             
             // Get values
             const name = nameInput.value.trim();
@@ -111,32 +111,32 @@ document.addEventListener('DOMContentLoaded', function() {
             const phone = phoneInput.value.trim();
             const message = messageInput.value.trim();
             
-            addDebugLog('Получены значения:');
-            addDebugLog('- Имя: ' + name);
-            addDebugLog('- Email: ' + email);
-            addDebugLog('- Телефон: ' + phone);
-            addDebugLog('- Сообщение: ' + message);
+            console.log('Получены значения:');
+            console.log('- Имя: ' + name);
+            console.log('- Email: ' + email);
+            console.log('- Телефон: ' + phone);
+            console.log('- Сообщение: ' + message);
             
             // Simple validation
             if (!name || name.length < 2) {
-                addDebugLog('ОШИБКА: Имя слишком короткое');
+                console.log('ОШИБКА: Имя слишком короткое');
                 showNotification('Пожалуйста, введите имя (минимум 2 символа)', 'error');
                 return;
             }
             
             if (!email || !email.includes('@')) {
-                addDebugLog('ОШИБКА: Неверный email');
+                console.log('ОШИБКА: Неверный email');
                 showNotification('Пожалуйста, введите корректный email', 'error');
                 return;
             }
             
             if (!message || message.length < 10) {
-                addDebugLog('ОШИБКА: Сообщение слишком короткое');
+                console.log('ОШИБКА: Сообщение слишком короткое');
                 showNotification('Пожалуйста, введите сообщение (минимум 10 символов)', 'error');
                 return;
             }
             
-            addDebugLog('Валидация прошла успешно');
+            console.log('Валидация прошла успешно');
             
             // Create message object
             const messageData = {
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 message: message
             };
             
-            addDebugLog('Создан объект сообщения для PHP');
+            console.log('Создан объект сообщения для PHP');
             
             // Show loading state
             submitButton.textContent = 'Отправляется...';
@@ -161,39 +161,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify(messageData)
             })
             .then(response => {
-                addDebugLog('Получен ответ от PHP: ' + response.status);
+                console.log('Получен ответ от PHP: ' + response.status);
                 return response.json();
             })
             .then(data => {
-                addDebugLog('Данные от PHP: ' + JSON.stringify(data));
+                console.log('Данные от PHP: ' + JSON.stringify(data));
                 
                 if (data.success) {
                     // Clear form on success
                     contactForm.reset();
-                    addDebugLog('Форма очищена после успешной отправки');
+                    console.log('Форма очищена после успешной отправки');
                     showNotification(data.message, 'success');
                 } else {
-                    addDebugLog('ОШИБКА от PHP: ' + data.message);
+                    console.log('ОШИБКА от PHP: ' + data.message);
                     showNotification(data.message, 'error');
                 }
             })
             .catch(error => {
-                addDebugLog('ОШИБКА при отправке на PHP: ' + error.message);
+                console.log('ОШИБКА при отправке на PHP: ' + error.message);
                 showNotification('Ошибка при отправке сообщения. Попробуйте еще раз.', 'error');
             })
             .finally(() => {
                 // Reset button
                 submitButton.textContent = 'Отправить сообщение';
                 submitButton.disabled = false;
-                addDebugLog('Кнопка сброшена');
+                console.log('Кнопка сброшена');
             });
             
-            addDebugLog('=== ОТПРАВКА НА PHP ЗАВЕРШЕНА ===');
+            console.log('=== ОТПРАВКА НА PHP ЗАВЕРШЕНА ===');
         });
         
-        addDebugLog('PHP обработчик формы добавлен');
+        console.log('PHP обработчик формы добавлен');
     } else {
-        addDebugLog('ОШИБКА: Форма не найдена!');
+        console.log('ОШИБКА: Форма не найдена!');
     }
     
     // Show notification function
@@ -215,14 +215,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Simple form functions
-function showFormNotification(message, type = 'info') {
-    addDebugLog('showFormNotification вызвана: ' + message + ' (' + type + ')');
-    const contactForm = document.getElementById('contactForm');
-    if (!contactForm) {
-        addDebugLog('Ошибка: контактная форма не найдена!');
-        console.error('Контактная форма не найдена!');
-        return;
-    }
+    function showFormNotification(message, type = 'info') {
+        console.log('showFormNotification вызвана: ' + message + ' (' + type + ')');
+        const contactForm = document.getElementById('contactForm');
+        if (!contactForm) {
+            console.log('Ошибка: контактная форма не найдена!');
+            console.error('Контактная форма не найдена!');
+            return;
+        }
     
     // Remove existing notification
     const existingNotification = contactForm.parentNode.querySelector('.form-notification');
@@ -256,21 +256,21 @@ function showFormNotification(message, type = 'info') {
     }
 }
 
-// Simple save function (kept for compatibility)
-function saveMessage(messageData) {
-    addDebugLog('saveMessage вызвана с данными: ' + JSON.stringify(messageData, null, 2));
-    try {
-        let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
-        addDebugLog('Существующие сообщения: ' + messages.length);
-        messages.push(messageData);
-        localStorage.setItem('eurooil_messages', JSON.stringify(messages));
-        addDebugLog('Сообщение успешно сохранено в localStorage');
-        addDebugLog('Всего сообщений: ' + messages.length);
-    } catch (error) {
-        addDebugLog('Ошибка при сохранении сообщения: ' + error.message);
-        console.error('Ошибка при сохранении сообщения:', error);
+    // Simple save function (kept for compatibility)
+    function saveMessage(messageData) {
+        console.log('saveMessage вызвана с данными: ' + JSON.stringify(messageData, null, 2));
+        try {
+            let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
+            console.log('Существующие сообщения: ' + messages.length);
+            messages.push(messageData);
+            localStorage.setItem('eurooil_messages', JSON.stringify(messages));
+            console.log('Сообщение успешно сохранено в localStorage');
+            console.log('Всего сообщений: ' + messages.length);
+        } catch (error) {
+            console.log('Ошибка при сохранении сообщения: ' + error.message);
+            console.error('Ошибка при сохранении сообщения:', error);
+        }
     }
-}
 
 // Show notification
 function showNotification(message, type = 'info') {
@@ -491,87 +491,8 @@ document.querySelectorAll('.fleet-image img').forEach(img => {
         });
     });
 
-    // Console log for debugging
+    // Site loaded successfully
     console.log('Сайт EuroOil успешно загружен!');
-    console.log('Функции: Мобильная навигация, счетчики чисел, контактная форма, плавная прокрутка');
-    
-    // Debug contact form
-    console.log('Контактная форма найдена:', !!contactForm);
-    if (contactForm) {
-        console.log('ID формы:', contactForm.id);
-        console.log('Элементы формы:', contactForm.elements.length);
-    }
-    
-    // Add debug panel to the page
-    addDebugPanel();
 });
 
-// Debug panel functions
-function addDebugPanel() {
-    const debugPanel = document.createElement('div');
-    debugPanel.id = 'debugPanel';
-    debugPanel.style.cssText = `
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        background: rgba(0, 0, 0, 0.9);
-        color: white;
-        padding: 15px;
-        border-radius: 8px;
-        font-family: monospace;
-        font-size: 12px;
-        max-width: 400px;
-        max-height: 300px;
-        overflow-y: auto;
-        z-index: 10000;
-        display: none;
-    `;
-    
-    debugPanel.innerHTML = `
-        <div style="margin-bottom: 10px;">
-            <strong>🔧 Отладка формы</strong>
-            <button onclick="toggleDebugPanel()" style="float: right; background: #333; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer;">X</button>
-        </div>
-        <div id="debugLog" style="white-space: pre-wrap;"></div>
-    `;
-    
-    document.body.appendChild(debugPanel);
-    
-    // Add toggle button
-    const toggleButton = document.createElement('button');
-    toggleButton.textContent = '🔧';
-    toggleButton.style.cssText = `
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        background: #1e3a8a;
-        color: white;
-        border: none;
-        padding: 10px;
-        border-radius: 50%;
-        cursor: pointer;
-        z-index: 9999;
-        font-size: 16px;
-    `;
-    toggleButton.onclick = toggleDebugPanel;
-    document.body.appendChild(toggleButton);
-}
-
-function toggleDebugPanel() {
-    const panel = document.getElementById('debugPanel');
-    if (panel.style.display === 'none' || !panel.style.display) {
-        panel.style.display = 'block';
-    } else {
-        panel.style.display = 'none';
-    }
-}
-
-function addDebugLog(message) {
-    const debugLog = document.getElementById('debugLog');
-    if (debugLog) {
-        const timestamp = new Date().toLocaleTimeString();
-        debugLog.innerHTML += `[${timestamp}] ${message}\n`;
-        debugLog.scrollTop = debugLog.scrollHeight;
-    }
-    console.log(message); // Also log to console
-} 
+ 
