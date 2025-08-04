@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Get form data
+            // Get form data BEFORE clearing
             const formData = new FormData(contactForm);
             const messageData = {
                 name: formData.get('name').trim(),
@@ -115,17 +115,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 id: Date.now() // Unique ID for each message
             };
             
-            // Save message to localStorage
-            saveMessage(messageData);
+            // Get submit button and show loading state
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'Отправляется...';
+            submitButton.disabled = true;
+            submitButton.style.opacity = '0.7';
+            
+            // Clear form IMMEDIATELY after getting data
+            contactForm.reset();
+            clearValidationStates(contactForm);
             
             // Show success message
             showFormNotification('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
             
-            // Reset form
-            contactForm.reset();
+            // Save message to localStorage AFTER clearing form
+            saveMessage(messageData);
             
-            // Clear validation states
-            clearValidationStates(contactForm);
+            // Reset button after a short delay
+            setTimeout(() => {
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+                submitButton.style.opacity = '1';
+            }, 1000);
         });
     }
 });
