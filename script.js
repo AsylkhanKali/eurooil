@@ -97,16 +97,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('Форма отправлена!');
+            addDebugLog('Форма отправлена!');
             
             // Validate form
-            console.log('Начинаем валидацию...');
+            addDebugLog('Начинаем валидацию...');
             if (!validateForm(contactForm)) {
-                console.log('Валидация не прошла');
+                addDebugLog('Валидация не прошла');
                 showFormNotification('Пожалуйста, исправьте ошибки в форме', 'error');
                 return;
             }
-            console.log('Валидация прошла успешно');
+            addDebugLog('Валидация прошла успешно');
             
             // Get form data BEFORE clearing
             const formData = new FormData(contactForm);
@@ -148,22 +148,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Validation functions
 function validateForm(form) {
-    console.log('validateForm вызвана');
+    addDebugLog('validateForm вызвана');
     let isValid = true;
     
     // Validate name
     const name = form.querySelector('#name');
-    console.log('Имя:', name.value);
+    addDebugLog('Имя: ' + name.value);
     if (!name.value.trim()) {
-        console.log('Ошибка: имя пустое');
+        addDebugLog('Ошибка: имя пустое');
         showFieldError(name, 'Имя обязательно для заполнения');
         isValid = false;
     } else if (name.value.trim().length < 2) {
-        console.log('Ошибка: имя слишком короткое');
+        addDebugLog('Ошибка: имя слишком короткое');
         showFieldError(name, 'Имя должно содержать минимум 2 символа');
         isValid = false;
     } else {
-        console.log('Имя валидно');
+        addDebugLog('Имя валидно');
         clearFieldError(name);
     }
     
@@ -367,9 +367,10 @@ function addValidationStyles() {
 }
 
 function showFormNotification(message, type = 'info') {
-    console.log('showFormNotification вызвана:', message, type);
+    addDebugLog('showFormNotification вызвана: ' + message + ' (' + type + ')');
     const contactForm = document.getElementById('contactForm');
     if (!contactForm) {
+        addDebugLog('Ошибка: контактная форма не найдена!');
         console.error('Контактная форма не найдена!');
         return;
     }
@@ -408,20 +409,21 @@ function showFormNotification(message, type = 'info') {
 
 // Save message to localStorage
 function saveMessage(messageData) {
-    console.log('saveMessage вызвана с данными:', messageData);
+    addDebugLog('saveMessage вызвана с данными: ' + JSON.stringify(messageData, null, 2));
     try {
         let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
-        console.log('Существующие сообщения:', messages);
+        addDebugLog('Существующие сообщения: ' + messages.length);
         messages.push(messageData);
         localStorage.setItem('eurooil_messages', JSON.stringify(messages));
-        console.log('Сообщение успешно сохранено в localStorage');
-        console.log('Всего сообщений:', messages.length);
+        addDebugLog('Сообщение успешно сохранено в localStorage');
+        addDebugLog('Всего сообщений: ' + messages.length);
     } catch (error) {
+        addDebugLog('Ошибка при сохранении сообщения: ' + error.message);
         console.error('Ошибка при сохранении сообщения:', error);
     }
     
     // Also save to a more permanent storage (you can replace this with a real backend)
-    console.log('New message saved:', messageData);
+    addDebugLog('New message saved: ' + JSON.stringify(messageData));
     
     // Optionally send to a server endpoint
     // sendMessageToServer(messageData);
@@ -656,4 +658,77 @@ document.querySelectorAll('.fleet-image img').forEach(img => {
         console.log('ID формы:', contactForm.id);
         console.log('Элементы формы:', contactForm.elements.length);
     }
-}); 
+    
+    // Add debug panel to the page
+    addDebugPanel();
+});
+
+// Debug panel functions
+function addDebugPanel() {
+    const debugPanel = document.createElement('div');
+    debugPanel.id = 'debugPanel';
+    debugPanel.style.cssText = `
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 12px;
+        max-width: 400px;
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 10000;
+        display: none;
+    `;
+    
+    debugPanel.innerHTML = `
+        <div style="margin-bottom: 10px;">
+            <strong>🔧 Отладка формы</strong>
+            <button onclick="toggleDebugPanel()" style="float: right; background: #333; color: white; border: none; padding: 2px 8px; border-radius: 4px; cursor: pointer;">X</button>
+        </div>
+        <div id="debugLog" style="white-space: pre-wrap;"></div>
+    `;
+    
+    document.body.appendChild(debugPanel);
+    
+    // Add toggle button
+    const toggleButton = document.createElement('button');
+    toggleButton.textContent = '🔧';
+    toggleButton.style.cssText = `
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        background: #1e3a8a;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 9999;
+        font-size: 16px;
+    `;
+    toggleButton.onclick = toggleDebugPanel;
+    document.body.appendChild(toggleButton);
+}
+
+function toggleDebugPanel() {
+    const panel = document.getElementById('debugPanel');
+    if (panel.style.display === 'none' || !panel.style.display) {
+        panel.style.display = 'block';
+    } else {
+        panel.style.display = 'none';
+    }
+}
+
+function addDebugLog(message) {
+    const debugLog = document.getElementById('debugLog');
+    if (debugLog) {
+        const timestamp = new Date().toLocaleTimeString();
+        debugLog.innerHTML += `[${timestamp}] ${message}\n`;
+        debugLog.scrollTop = debugLog.scrollHeight;
+    }
+    console.log(message); // Also log to console
+} 
