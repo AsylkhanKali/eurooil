@@ -1,16 +1,10 @@
 {
   "version": 2,
   "name": "eurooil",
-  "builds": [
+  "rewrites": [
     {
-      "src": "*.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/(.*)",
+      "destination": "/$1"
     }
   ],
   "headers": [
