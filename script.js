@@ -97,12 +97,16 @@ document.addEventListener('DOMContentLoaded', function() {
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            console.log('Форма отправлена!');
             
             // Validate form
+            console.log('Начинаем валидацию...');
             if (!validateForm(contactForm)) {
+                console.log('Валидация не прошла');
                 showFormNotification('Пожалуйста, исправьте ошибки в форме', 'error');
                 return;
             }
+            console.log('Валидация прошла успешно');
             
             // Get form data BEFORE clearing
             const formData = new FormData(contactForm);
@@ -144,17 +148,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Validation functions
 function validateForm(form) {
+    console.log('validateForm вызвана');
     let isValid = true;
     
     // Validate name
     const name = form.querySelector('#name');
+    console.log('Имя:', name.value);
     if (!name.value.trim()) {
+        console.log('Ошибка: имя пустое');
         showFieldError(name, 'Имя обязательно для заполнения');
         isValid = false;
     } else if (name.value.trim().length < 2) {
+        console.log('Ошибка: имя слишком короткое');
         showFieldError(name, 'Имя должно содержать минимум 2 символа');
         isValid = false;
     } else {
+        console.log('Имя валидно');
         clearFieldError(name);
     }
     
@@ -358,8 +367,12 @@ function addValidationStyles() {
 }
 
 function showFormNotification(message, type = 'info') {
+    console.log('showFormNotification вызвана:', message, type);
     const contactForm = document.getElementById('contactForm');
-    if (!contactForm) return;
+    if (!contactForm) {
+        console.error('Контактная форма не найдена!');
+        return;
+    }
     
     // Remove existing notification
     const existingNotification = contactForm.parentNode.querySelector('.form-notification');
@@ -395,9 +408,17 @@ function showFormNotification(message, type = 'info') {
 
 // Save message to localStorage
 function saveMessage(messageData) {
-    let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
-    messages.push(messageData);
-    localStorage.setItem('eurooil_messages', JSON.stringify(messages));
+    console.log('saveMessage вызвана с данными:', messageData);
+    try {
+        let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
+        console.log('Существующие сообщения:', messages);
+        messages.push(messageData);
+        localStorage.setItem('eurooil_messages', JSON.stringify(messages));
+        console.log('Сообщение успешно сохранено в localStorage');
+        console.log('Всего сообщений:', messages.length);
+    } catch (error) {
+        console.error('Ошибка при сохранении сообщения:', error);
+    }
     
     // Also save to a more permanent storage (you can replace this with a real backend)
     console.log('New message saved:', messageData);
