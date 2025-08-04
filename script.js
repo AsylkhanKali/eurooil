@@ -85,11 +85,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // PHP Contact Form Handling
+    // Enhanced PHP Contact Form Handling
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
-        console.log('Форма найдена, добавляем PHP обработчик');
+        console.log('Форма найдена, добавляем улучшенный PHP обработчик');
+        
+        // Add real-time validation
+        addRealTimeValidation();
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -101,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const phoneInput = document.getElementById('phone');
             const messageInput = document.getElementById('message');
             const submitButton = contactForm.querySelector('button[type="submit"]');
-            const notification = document.getElementById('formNotification');
             
             console.log('Элементы формы найдены');
             
@@ -117,22 +119,11 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('- Телефон: ' + phone);
             console.log('- Сообщение: ' + message);
             
-            // Simple validation
-            if (!name || name.length < 2) {
-                console.log('ОШИБКА: Имя слишком короткое');
-                showNotification('Пожалуйста, введите имя (минимум 2 символа)', 'error');
-                return;
-            }
-            
-            if (!email || !email.includes('@')) {
-                console.log('ОШИБКА: Неверный email');
-                showNotification('Пожалуйста, введите корректный email', 'error');
-                return;
-            }
-            
-            if (!message || message.length < 10) {
-                console.log('ОШИБКА: Сообщение слишком короткое');
-                showNotification('Пожалуйста, введите сообщение (минимум 10 символов)', 'error');
+            // Enhanced validation
+            const validationResult = validateFormData(name, email, message);
+            if (!validationResult.isValid) {
+                console.log('ОШИБКА валидации: ' + validationResult.message);
+                showNotification(validationResult.message, 'error');
                 return;
             }
             
@@ -143,7 +134,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: name,
                 email: email,
                 phone: phone,
-                message: message
+                message: message,
+                userAgent: navigator.userAgent,
+                timestamp: new Date().toISOString()
             };
             
             console.log('Создан объект сообщения для PHP');
@@ -151,17 +144,29 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show loading state
             submitButton.textContent = 'Отправляется...';
             submitButton.disabled = true;
+            submitButton.style.opacity = '0.7';
             
-            // Send to PHP
+            // Send to PHP with timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
             fetch('process_form.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify(messageData)
+                body: JSON.stringify(messageData),
+                signal: controller.signal
             })
             .then(response => {
+                clearTimeout(timeoutId);
                 console.log('Получен ответ от PHP: ' + response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
                 return response.json();
             })
             .then(data => {
@@ -170,30 +175,204 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (data.success) {
                     // Clear form on success
                     contactForm.reset();
+                    clearValidationErrors();
                     console.log('Форма очищена после успешной отправки');
                     showNotification(data.message, 'success');
+                    
+                    // Track successful submission
+                    trackFormSubmission('success');
                 } else {
                     console.log('ОШИБКА от PHP: ' + data.message);
                     showNotification(data.message, 'error');
+                    trackFormSubmission('error', data.message);
                 }
             })
             .catch(error => {
+                clearTimeout(timeoutId);
                 console.log('ОШИБКА при отправке на PHP: ' + error.message);
-                showNotification('Ошибка при отправке сообщения. Попробуйте еще раз.', 'error');
+                
+                let errorMessage = 'Ошибка при отправке сообщения. Попробуйте еще раз.';
+                
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Превышено время ожидания. Проверьте интернет-соединение.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMessage = 'Нет соединения с сервером. Проверьте интернет-соединение.';
+                }
+                
+                showNotification(errorMessage, 'error');
+                trackFormSubmission('error', error.message);
             })
             .finally(() => {
                 // Reset button
                 submitButton.textContent = 'Отправить сообщение';
                 submitButton.disabled = false;
+                submitButton.style.opacity = '1';
                 console.log('Кнопка сброшена');
             });
             
             console.log('=== ОТПРАВКА НА PHP ЗАВЕРШЕНА ===');
         });
         
-        console.log('PHP обработчик формы добавлен');
+        console.log('Улучшенный PHP обработчик формы добавлен');
     } else {
         console.log('ОШИБКА: Форма не найдена!');
+    }
+    
+    // Enhanced validation function
+    function validateFormData(name, email, message) {
+        if (!name || name.length < 2) {
+            return { isValid: false, message: 'Пожалуйста, введите имя (минимум 2 символа)' };
+        }
+        
+        if (name.length > 50) {
+            return { isValid: false, message: 'Имя слишком длинное (максимум 50 символов)' };
+        }
+        
+        if (!email || !email.includes('@')) {
+            return { isValid: false, message: 'Пожалуйста, введите корректный email' };
+        }
+        
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return { isValid: false, message: 'Пожалуйста, введите корректный email адрес' };
+        }
+        
+        if (!message || message.length < 10) {
+            return { isValid: false, message: 'Пожалуйста, введите сообщение (минимум 10 символов)' };
+        }
+        
+        if (message.length > 1000) {
+            return { isValid: false, message: 'Сообщение слишком длинное (максимум 1000 символов)' };
+        }
+        
+        return { isValid: true, message: 'Валидация прошла успешно' };
+    }
+    
+    // Real-time validation
+    function addRealTimeValidation() {
+        const inputs = contactForm.querySelectorAll('input, textarea');
+        
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                validateField(this);
+            });
+            
+            input.addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    validateField(this);
+                }
+            });
+        });
+    }
+    
+    function validateField(field) {
+        const value = field.value.trim();
+        let isValid = true;
+        let errorMessage = '';
+        
+        switch (field.id) {
+            case 'name':
+                if (!value) {
+                    isValid = false;
+                    errorMessage = 'Имя обязательно для заполнения';
+                } else if (value.length < 2) {
+                    isValid = false;
+                    errorMessage = 'Имя должно содержать минимум 2 символа';
+                } else if (value.length > 50) {
+                    isValid = false;
+                    errorMessage = 'Имя слишком длинное';
+                }
+                break;
+                
+            case 'email':
+                if (!value) {
+                    isValid = false;
+                    errorMessage = 'Email обязателен для заполнения';
+                } else {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Введите корректный email адрес';
+                    }
+                }
+                break;
+                
+            case 'message':
+                if (!value) {
+                    isValid = false;
+                    errorMessage = 'Сообщение обязательно для заполнения';
+                } else if (value.length < 10) {
+                    isValid = false;
+                    errorMessage = 'Сообщение должно содержать минимум 10 символов';
+                } else if (value.length > 1000) {
+                    isValid = false;
+                    errorMessage = 'Сообщение слишком длинное';
+                }
+                break;
+        }
+        
+        if (isValid) {
+            clearFieldError(field);
+        } else {
+            showFieldError(field, errorMessage);
+        }
+    }
+    
+    function showFieldError(field, message) {
+        field.classList.add('error');
+        
+        // Remove existing error message
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Add error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.textContent = message;
+        field.parentNode.appendChild(errorDiv);
+    }
+    
+    function clearFieldError(field) {
+        field.classList.remove('error');
+        
+        // Remove error message
+        const errorDiv = field.parentNode.querySelector('.field-error');
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+    }
+    
+    function clearValidationErrors() {
+        const inputs = contactForm.querySelectorAll('input, textarea');
+        inputs.forEach(input => {
+            clearFieldError(input);
+        });
+    }
+    
+    // Analytics tracking
+    function trackFormSubmission(status, errorMessage = '') {
+        const eventData = {
+            event: 'form_submission',
+            status: status,
+            timestamp: new Date().toISOString(),
+            error: errorMessage
+        };
+        
+        // Send to analytics endpoint if available
+        fetch('analytics.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(eventData)
+        }).catch(error => {
+            console.log('Analytics tracking failed:', error);
+        });
+        
+        // Also log locally
+        console.log('Form submission tracked:', eventData);
     }
     
     // Show notification function
