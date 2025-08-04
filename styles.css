@@ -346,7 +346,7 @@ p {
 }
 
 .number-value {
-    font-size: 3rem;
+    font-size: 4rem;
     font-weight: 700;
     color: var(--accent-yellow);
     margin-bottom: 0.5rem;
@@ -685,6 +685,10 @@ p {
     h1 { font-size: 2.5rem; }
     h2 { font-size: 2rem; }
     h3 { font-size: 1.5rem; }
+    
+    .number-value {
+        font-size: 3rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -705,6 +709,10 @@ p {
     .btn {
         padding: 10px 20px;
         font-size: 0.9rem;
+    }
+    
+    .number-value {
+        font-size: 2.5rem;
     }
 }
 
