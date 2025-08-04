@@ -47,4 +47,8 @@ coverage/
 
 # Temporary folders
 tmp/
-temp/ 
+temp/
+
+# SSH keys
+ssh_eurooil
+ssh_eurooil.pub 
