@@ -429,11 +429,10 @@ p {
 
 .station-card {
     background: var(--white);
-    padding: 2rem;
     border-radius: 12px;
     box-shadow: var(--shadow-md);
     transition: all 0.3s ease;
-    text-align: center;
+    overflow: hidden;
 }
 
 .station-card:hover {
@@ -441,20 +440,25 @@ p {
     box-shadow: var(--shadow-xl);
 }
 
-.station-icon {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.5rem;
+.station-image {
+    height: 200px;
+    overflow: hidden;
 }
 
-.station-icon i {
-    font-size: 2rem;
-    color: var(--white);
+.station-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.station-card:hover .station-image img {
+    transform: scale(1.05);
+}
+
+.station-content {
+    padding: 2rem;
+    text-align: center;
 }
 
 .station-card h3 {
