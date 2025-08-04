@@ -110,6 +110,37 @@ p {
     transform: translateY(-2px);
 }
 
+.btn-instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: var(--white);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-instagram:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    color: var(--white);
+}
+
+.social-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.instagram-contact {
+    margin-top: 1rem;
+}
+
 /* Navigation */
 .navbar {
     position: fixed;
@@ -587,78 +618,7 @@ p {
     color: var(--text-light);
 }
 
-/* Form Validation Styles */
-.form-group input.error,
-.form-group textarea.error {
-    border-color: #dc2626 !important;
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
-}
 
-.form-group input:focus.error,
-.form-group textarea:focus.error {
-    border-color: #dc2626 !important;
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.2) !important;
-}
-
-.field-error {
-    color: #dc2626;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    animation: slideDown 0.3s ease;
-}
-
-.field-error::before {
-    content: "⚠";
-    font-size: 1rem;
-}
-
-.form-notification {
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    animation: slideDown 0.3s ease;
-}
-
-.form-notification.success {
-    background: #d1fae5;
-    color: #065f46;
-    border: 1px solid #a7f3d0;
-}
-
-.form-notification.error {
-    background: #fee2e2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-}
 
 /* Footer */
 .footer {

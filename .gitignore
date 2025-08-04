@@ -53,8 +53,4 @@ temp/
 ssh_eurooil
 ssh_eurooil.pub
 
-# Messages file (contains sensitive data)
-messages.json
-
-# Analytics file (contains user data)
-analytics.json 
+ 
