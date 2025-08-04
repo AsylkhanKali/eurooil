@@ -1,6 +1,8 @@
 {
   "version": 2,
   "name": "eurooil",
+  "buildCommand": "echo 'Static site - no build required'",
+  "outputDirectory": ".",
   "rewrites": [
     {
       "source": "/(.*)",

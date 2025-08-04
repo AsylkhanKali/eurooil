@@ -18,12 +18,9 @@
   ],
   "author": "EuroOil Team",
   "license": "MIT",
-  "devDependencies": {
-    "serve": "^14.2.1"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/eurooil.git"
+    "url": "https://github.com/AsylkhanKali/eurooil.git"
   },
   "homepage": "https://eurooil.vercel.app"
 } 
