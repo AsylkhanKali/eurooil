@@ -78,126 +78,143 @@ window.addEventListener('scroll', () => {
 });
 
 // Contact Form Handling
-const contactForm = document.getElementById('contactForm');
-if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const phone = formData.get('phone');
-        const message = formData.get('message');
-        
-        // Create email message
-        const emailSubject = 'Новое сообщение с сайта EuroOil';
-        const emailBody = `Здравствуйте!
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const messageData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                message: formData.get('message'),
+                timestamp: new Date().toISOString(),
+                id: Date.now() // Unique ID for each message
+            };
+            
+            // Save message to localStorage
+            saveMessage(messageData);
+            
+            // Show success message
+            showNotification('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
+            
+            // Reset form
+            contactForm.reset();
+        });
+    }
+});
 
-Получено новое сообщение с сайта EuroOil:
-
-Имя: ${name}
-Email: ${email}
-Телефон: ${phone}
-Сообщение: ${message}
-
-С уважением,
-Сайт EuroOil`;
-
-        // Create mailto link
-        const mailtoUrl = `mailto:onixcp23@gmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-        
-        // Open default email client
-        window.location.href = mailtoUrl;
-        
-        // Show success message
-        showNotification('Сообщение отправлено! Открывается почтовый клиент...', 'success');
-        
-        // Reset form
-        this.reset();
-    });
+// Save message to localStorage
+function saveMessage(messageData) {
+    let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
+    messages.push(messageData);
+    localStorage.setItem('eurooil_messages', JSON.stringify(messages));
+    
+    // Also save to a more permanent storage (you can replace this with a real backend)
+    console.log('New message saved:', messageData);
+    
+    // Optionally send to a server endpoint
+    // sendMessageToServer(messageData);
 }
 
-// Notification system
+// Show notification
 function showNotification(message, type = 'info') {
-    // Remove existing notifications
-    const existingNotification = document.querySelector('.notification');
-    if (existingNotification) {
-        existingNotification.remove();
-    }
-    
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <span>${message}</span>
-            <button class="notification-close">&times;</button>
-        </div>
-    `;
+    notification.textContent = message;
     
     // Add styles
     notification.style.cssText = `
         position: fixed;
-        top: 100px;
+        top: 20px;
         right: 20px;
-        background: ${type === 'success' ? '#10b981' : '#3b82f6'};
-        color: white;
-        padding: 1rem 1.5rem;
+        padding: 15px 20px;
         border-radius: 8px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        color: white;
+        font-weight: 500;
         z-index: 10000;
-        max-width: 400px;
-        animation: slideIn 0.3s ease-out;
+        animation: slideIn 0.3s ease;
+        max-width: 300px;
     `;
     
-    // Add animation styles
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        .notification-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 1rem;
-        }
-        .notification-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0;
-            line-height: 1;
-        }
-    `;
-    document.head.appendChild(style);
+    if (type === 'success') {
+        notification.style.background = '#10b981';
+    } else if (type === 'error') {
+        notification.style.background = '#ef4444';
+    } else {
+        notification.style.background = '#3b82f6';
+    }
     
-    // Add to page
     document.body.appendChild(notification);
     
-    // Close button functionality
-    const closeBtn = notification.querySelector('.notification-close');
-    closeBtn.addEventListener('click', () => {
-        notification.remove();
-    });
-    
-    // Auto remove after 5 seconds
+    // Remove after 5 seconds
     setTimeout(() => {
-        if (notification.parentNode) {
-            notification.remove();
-        }
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
     }, 5000);
 }
+
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Function to get all messages (for admin panel)
+function getAllMessages() {
+    return JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
+}
+
+// Function to export messages as JSON
+function exportMessages() {
+    const messages = getAllMessages();
+    const dataStr = JSON.stringify(messages, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(dataBlob);
+    link.download = `eurooil_messages_${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+}
+
+// Admin panel functions (you can access these from browser console)
+window.EuroOilAdmin = {
+    getAllMessages: getAllMessages,
+    exportMessages: exportMessages,
+    clearMessages: function() {
+        localStorage.removeItem('eurooil_messages');
+        console.log('All messages cleared');
+    }
+};
+
+console.log('EuroOil Admin Panel loaded. Use EuroOilAdmin.getAllMessages() to view messages.');
 
 // Lazy loading for images
 function lazyLoadImages() {
