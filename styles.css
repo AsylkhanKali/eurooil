@@ -83,14 +83,17 @@ p {
 }
 
 .btn-secondary {
-    background: transparent;
+    background: var(--white);
     color: var(--primary-blue);
     border: 2px solid var(--primary-blue);
+    box-shadow: var(--shadow-md);
 }
 
 .btn-secondary:hover {
     background: var(--primary-blue);
     color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .btn-whatsapp {
