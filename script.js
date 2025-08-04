@@ -85,287 +85,107 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Contact Form Handling
+    // Simple Contact Form Handling
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
-        // Add validation styles
-        addValidationStyles();
-        
-        // Add real-time validation
-        addRealTimeValidation(contactForm);
+        addDebugLog('Форма найдена, добавляем обработчик');
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            addDebugLog('Форма отправлена!');
+            addDebugLog('=== НАЧАЛО ОТПРАВКИ ФОРМЫ ===');
             
-            // Validate form
-            addDebugLog('Начинаем валидацию...');
-            if (!validateForm(contactForm)) {
-                addDebugLog('Валидация не прошла');
-                showFormNotification('Пожалуйста, исправьте ошибки в форме', 'error');
+            // Get form elements
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const phoneInput = document.getElementById('phone');
+            const messageInput = document.getElementById('message');
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            
+            addDebugLog('Элементы формы найдены');
+            
+            // Get values
+            const name = nameInput.value.trim();
+            const email = emailInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const message = messageInput.value.trim();
+            
+            addDebugLog('Получены значения:');
+            addDebugLog('- Имя: ' + name);
+            addDebugLog('- Email: ' + email);
+            addDebugLog('- Телефон: ' + phone);
+            addDebugLog('- Сообщение: ' + message);
+            
+            // Simple validation
+            if (!name || name.length < 2) {
+                addDebugLog('ОШИБКА: Имя слишком короткое');
+                alert('Пожалуйста, введите имя (минимум 2 символа)');
                 return;
             }
+            
+            if (!email || !email.includes('@')) {
+                addDebugLog('ОШИБКА: Неверный email');
+                alert('Пожалуйста, введите корректный email');
+                return;
+            }
+            
+            if (!message || message.length < 10) {
+                addDebugLog('ОШИБКА: Сообщение слишком короткое');
+                alert('Пожалуйста, введите сообщение (минимум 10 символов)');
+                return;
+            }
+            
             addDebugLog('Валидация прошла успешно');
             
-            // Get form data BEFORE clearing
-            const formData = new FormData(contactForm);
+            // Create message object
             const messageData = {
-                name: formData.get('name').trim(),
-                email: formData.get('email').trim(),
-                phone: formData.get('phone').trim(),
-                message: formData.get('message').trim(),
+                name: name,
+                email: email,
+                phone: phone,
+                message: message,
                 timestamp: new Date().toISOString(),
-                id: Date.now() // Unique ID for each message
+                id: Date.now()
             };
             
-            // Get submit button and show loading state
-            const submitButton = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitButton.textContent;
+            addDebugLog('Создан объект сообщения');
+            
+            // Show loading state
             submitButton.textContent = 'Отправляется...';
             submitButton.disabled = true;
-            submitButton.style.opacity = '0.7';
             
-            // Clear form IMMEDIATELY after getting data
+            // Clear form immediately
             contactForm.reset();
-            clearValidationStates(contactForm);
+            addDebugLog('Форма очищена');
+            
+            // Save to localStorage
+            try {
+                let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
+                messages.push(messageData);
+                localStorage.setItem('eurooil_messages', JSON.stringify(messages));
+                addDebugLog('Сообщение сохранено в localStorage. Всего: ' + messages.length);
+            } catch (error) {
+                addDebugLog('ОШИБКА при сохранении: ' + error.message);
+                alert('Ошибка при сохранении сообщения');
+            }
             
             // Show success message
-            showFormNotification('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
+            alert('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.');
+            addDebugLog('Показано уведомление об успехе');
             
-            // Save message to localStorage AFTER clearing form
-            saveMessage(messageData);
+            // Reset button
+            submitButton.textContent = 'Отправить сообщение';
+            submitButton.disabled = false;
             
-            // Reset button after a short delay
-            setTimeout(() => {
-                submitButton.textContent = originalText;
-                submitButton.disabled = false;
-                submitButton.style.opacity = '1';
-            }, 1000);
+            addDebugLog('=== ФОРМА УСПЕШНО ОТПРАВЛЕНА ===');
         });
+        
+        addDebugLog('Обработчик формы добавлен');
+    } else {
+        addDebugLog('ОШИБКА: Форма не найдена!');
     }
 });
 
-// Validation functions
-function validateForm(form) {
-    addDebugLog('validateForm вызвана');
-    let isValid = true;
-    
-    // Validate name
-    const name = form.querySelector('#name');
-    addDebugLog('Имя: ' + name.value);
-    if (!name.value.trim()) {
-        addDebugLog('Ошибка: имя пустое');
-        showFieldError(name, 'Имя обязательно для заполнения');
-        isValid = false;
-    } else if (name.value.trim().length < 2) {
-        addDebugLog('Ошибка: имя слишком короткое');
-        showFieldError(name, 'Имя должно содержать минимум 2 символа');
-        isValid = false;
-    } else {
-        addDebugLog('Имя валидно');
-        clearFieldError(name);
-    }
-    
-    // Validate email
-    const email = form.querySelector('#email');
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.value.trim()) {
-        showFieldError(email, 'Email обязателен для заполнения');
-        isValid = false;
-    } else if (!emailRegex.test(email.value.trim())) {
-        showFieldError(email, 'Введите корректный email адрес');
-        isValid = false;
-    } else {
-        clearFieldError(email);
-    }
-    
-    // Validate phone (optional but if provided, must be valid)
-    const phone = form.querySelector('#phone');
-    if (phone.value.trim()) {
-        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-        if (!phoneRegex.test(phone.value.trim())) {
-            showFieldError(phone, 'Введите корректный номер телефона');
-            isValid = false;
-        } else {
-            clearFieldError(phone);
-        }
-    }
-    
-    // Validate message
-    const message = form.querySelector('#message');
-    if (!message.value.trim()) {
-        showFieldError(message, 'Сообщение обязательно для заполнения');
-        isValid = false;
-    } else if (message.value.trim().length < 10) {
-        showFieldError(message, 'Сообщение должно содержать минимум 10 символов');
-        isValid = false;
-    } else {
-        clearFieldError(message);
-    }
-    
-    return isValid;
-}
-
-function addRealTimeValidation(form) {
-    const inputs = form.querySelectorAll('input, textarea');
-    
-    inputs.forEach(input => {
-        input.addEventListener('blur', function() {
-            validateField(this);
-        });
-        
-        input.addEventListener('input', function() {
-            if (this.classList.contains('error')) {
-                validateField(this);
-            }
-        });
-    });
-}
-
-function validateField(field) {
-    const value = field.value.trim();
-    
-    switch (field.id) {
-        case 'name':
-            if (!value) {
-                showFieldError(field, 'Имя обязательно для заполнения');
-            } else if (value.length < 2) {
-                showFieldError(field, 'Имя должно содержать минимум 2 символа');
-            } else {
-                clearFieldError(field);
-            }
-            break;
-            
-        case 'email':
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!value) {
-                showFieldError(field, 'Email обязателен для заполнения');
-            } else if (!emailRegex.test(value)) {
-                showFieldError(field, 'Введите корректный email адрес');
-            } else {
-                clearFieldError(field);
-            }
-            break;
-            
-        case 'phone':
-            if (value) {
-                const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-                if (!phoneRegex.test(value)) {
-                    showFieldError(field, 'Введите корректный номер телефона');
-                } else {
-                    clearFieldError(field);
-                }
-            } else {
-                clearFieldError(field);
-            }
-            break;
-            
-        case 'message':
-            if (!value) {
-                showFieldError(field, 'Сообщение обязательно для заполнения');
-            } else if (value.length < 10) {
-                showFieldError(field, 'Сообщение должно содержать минимум 10 символов');
-            } else {
-                clearFieldError(field);
-            }
-            break;
-    }
-}
-
-function showFieldError(field, message) {
-    field.classList.add('error');
-    
-    // Remove existing error message
-    const existingError = field.parentNode.querySelector('.field-error');
-    if (existingError) {
-        existingError.remove();
-    }
-    
-    // Add error message
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'field-error';
-    errorDiv.textContent = message;
-    field.parentNode.appendChild(errorDiv);
-}
-
-function clearFieldError(field) {
-    field.classList.remove('error');
-    
-    // Remove error message
-    const errorDiv = field.parentNode.querySelector('.field-error');
-    if (errorDiv) {
-        errorDiv.remove();
-    }
-}
-
-function clearValidationStates(form) {
-    const inputs = form.querySelectorAll('input, textarea');
-    inputs.forEach(input => {
-        clearFieldError(input);
-    });
-}
-
-function addValidationStyles() {
-    const style = document.createElement('style');
-    style.textContent = `
-        .form-group input.error,
-        .form-group textarea.error {
-            border-color: #dc2626 !important;
-            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
-        }
-        
-        .field-error {
-            color: #dc2626;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .field-error::before {
-            content: "⚠";
-            font-size: 1rem;
-        }
-        
-        .form-notification {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            animation: slideDown 0.3s ease;
-        }
-        
-        .form-notification.success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #a7f3d0;
-        }
-        
-        .form-notification.error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-    `;
-    document.head.appendChild(style);
-}
-
+// Simple form functions
 function showFormNotification(message, type = 'info') {
     addDebugLog('showFormNotification вызвана: ' + message + ' (' + type + ')');
     const contactForm = document.getElementById('contactForm');
@@ -407,7 +227,7 @@ function showFormNotification(message, type = 'info') {
     }
 }
 
-// Save message to localStorage
+// Simple save function (kept for compatibility)
 function saveMessage(messageData) {
     addDebugLog('saveMessage вызвана с данными: ' + JSON.stringify(messageData, null, 2));
     try {
@@ -421,12 +241,6 @@ function saveMessage(messageData) {
         addDebugLog('Ошибка при сохранении сообщения: ' + error.message);
         console.error('Ошибка при сохранении сообщения:', error);
     }
-    
-    // Also save to a more permanent storage (you can replace this with a real backend)
-    addDebugLog('New message saved: ' + JSON.stringify(messageData));
-    
-    // Optionally send to a server endpoint
-    // sendMessageToServer(messageData);
 }
 
 // Show notification
