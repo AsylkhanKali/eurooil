@@ -85,15 +85,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Simple Contact Form Handling
+    // PHP Contact Form Handling
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
-        addDebugLog('Форма найдена, добавляем обработчик');
+        addDebugLog('Форма найдена, добавляем PHP обработчик');
         
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            addDebugLog('=== НАЧАЛО ОТПРАВКИ ФОРМЫ ===');
+            addDebugLog('=== НАЧАЛО ОТПРАВКИ ФОРМЫ НА PHP ===');
             
             // Get form elements
             const nameInput = document.getElementById('name');
@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const phoneInput = document.getElementById('phone');
             const messageInput = document.getElementById('message');
             const submitButton = contactForm.querySelector('button[type="submit"]');
+            const notification = document.getElementById('formNotification');
             
             addDebugLog('Элементы формы найдены');
             
@@ -119,19 +120,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Simple validation
             if (!name || name.length < 2) {
                 addDebugLog('ОШИБКА: Имя слишком короткое');
-                alert('Пожалуйста, введите имя (минимум 2 символа)');
+                showNotification('Пожалуйста, введите имя (минимум 2 символа)', 'error');
                 return;
             }
             
             if (!email || !email.includes('@')) {
                 addDebugLog('ОШИБКА: Неверный email');
-                alert('Пожалуйста, введите корректный email');
+                showNotification('Пожалуйста, введите корректный email', 'error');
                 return;
             }
             
             if (!message || message.length < 10) {
                 addDebugLog('ОШИБКА: Сообщение слишком короткое');
-                alert('Пожалуйста, введите сообщение (минимум 10 символов)');
+                showNotification('Пожалуйста, введите сообщение (минимум 10 символов)', 'error');
                 return;
             }
             
@@ -142,46 +143,74 @@ document.addEventListener('DOMContentLoaded', function() {
                 name: name,
                 email: email,
                 phone: phone,
-                message: message,
-                timestamp: new Date().toISOString(),
-                id: Date.now()
+                message: message
             };
             
-            addDebugLog('Создан объект сообщения');
+            addDebugLog('Создан объект сообщения для PHP');
             
             // Show loading state
             submitButton.textContent = 'Отправляется...';
             submitButton.disabled = true;
             
-            // Clear form immediately
-            contactForm.reset();
-            addDebugLog('Форма очищена');
+            // Send to PHP
+            fetch('process_form.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(messageData)
+            })
+            .then(response => {
+                addDebugLog('Получен ответ от PHP: ' + response.status);
+                return response.json();
+            })
+            .then(data => {
+                addDebugLog('Данные от PHP: ' + JSON.stringify(data));
+                
+                if (data.success) {
+                    // Clear form on success
+                    contactForm.reset();
+                    addDebugLog('Форма очищена после успешной отправки');
+                    showNotification(data.message, 'success');
+                } else {
+                    addDebugLog('ОШИБКА от PHP: ' + data.message);
+                    showNotification(data.message, 'error');
+                }
+            })
+            .catch(error => {
+                addDebugLog('ОШИБКА при отправке на PHP: ' + error.message);
+                showNotification('Ошибка при отправке сообщения. Попробуйте еще раз.', 'error');
+            })
+            .finally(() => {
+                // Reset button
+                submitButton.textContent = 'Отправить сообщение';
+                submitButton.disabled = false;
+                addDebugLog('Кнопка сброшена');
+            });
             
-            // Save to localStorage
-            try {
-                let messages = JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
-                messages.push(messageData);
-                localStorage.setItem('eurooil_messages', JSON.stringify(messages));
-                addDebugLog('Сообщение сохранено в localStorage. Всего: ' + messages.length);
-            } catch (error) {
-                addDebugLog('ОШИБКА при сохранении: ' + error.message);
-                alert('Ошибка при сохранении сообщения');
-            }
-            
-            // Show success message
-            alert('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.');
-            addDebugLog('Показано уведомление об успехе');
-            
-            // Reset button
-            submitButton.textContent = 'Отправить сообщение';
-            submitButton.disabled = false;
-            
-            addDebugLog('=== ФОРМА УСПЕШНО ОТПРАВЛЕНА ===');
+            addDebugLog('=== ОТПРАВКА НА PHP ЗАВЕРШЕНА ===');
         });
         
-        addDebugLog('Обработчик формы добавлен');
+        addDebugLog('PHP обработчик формы добавлен');
     } else {
         addDebugLog('ОШИБКА: Форма не найдена!');
+    }
+    
+    // Show notification function
+    function showNotification(message, type) {
+        const notification = document.getElementById('formNotification');
+        if (notification) {
+            notification.textContent = message;
+            notification.style.display = 'block';
+            notification.style.backgroundColor = type === 'success' ? '#d1fae5' : '#fee2e2';
+            notification.style.color = type === 'success' ? '#065f46' : '#991b1b';
+            notification.style.border = type === 'success' ? '1px solid #a7f3d0' : '1px solid #fca5a5';
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 5000);
+        }
     }
 });
 

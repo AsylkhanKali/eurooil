@@ -51,4 +51,7 @@ temp/
 
 # SSH keys
 ssh_eurooil
-ssh_eurooil.pub 
+ssh_eurooil.pub
+
+# Messages file (contains sensitive data)
+messages.json 
