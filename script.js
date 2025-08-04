@@ -82,16 +82,28 @@ document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     
     if (contactForm) {
+        // Add validation styles
+        addValidationStyles();
+        
+        // Add real-time validation
+        addRealTimeValidation(contactForm);
+        
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Validate form
+            if (!validateForm(contactForm)) {
+                showFormNotification('Пожалуйста, исправьте ошибки в форме', 'error');
+                return;
+            }
             
             // Get form data
             const formData = new FormData(contactForm);
             const messageData = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                phone: formData.get('phone'),
-                message: formData.get('message'),
+                name: formData.get('name').trim(),
+                email: formData.get('email').trim(),
+                phone: formData.get('phone').trim(),
+                message: formData.get('message').trim(),
                 timestamp: new Date().toISOString(),
                 id: Date.now() // Unique ID for each message
             };
@@ -100,13 +112,267 @@ document.addEventListener('DOMContentLoaded', function() {
             saveMessage(messageData);
             
             // Show success message
-            showNotification('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
+            showFormNotification('Сообщение отправлено! Мы свяжемся с вами в ближайшее время.', 'success');
             
             // Reset form
             contactForm.reset();
+            
+            // Clear validation states
+            clearValidationStates(contactForm);
         });
     }
 });
+
+// Validation functions
+function validateForm(form) {
+    let isValid = true;
+    
+    // Validate name
+    const name = form.querySelector('#name');
+    if (!name.value.trim()) {
+        showFieldError(name, 'Имя обязательно для заполнения');
+        isValid = false;
+    } else if (name.value.trim().length < 2) {
+        showFieldError(name, 'Имя должно содержать минимум 2 символа');
+        isValid = false;
+    } else {
+        clearFieldError(name);
+    }
+    
+    // Validate email
+    const email = form.querySelector('#email');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value.trim()) {
+        showFieldError(email, 'Email обязателен для заполнения');
+        isValid = false;
+    } else if (!emailRegex.test(email.value.trim())) {
+        showFieldError(email, 'Введите корректный email адрес');
+        isValid = false;
+    } else {
+        clearFieldError(email);
+    }
+    
+    // Validate phone (optional but if provided, must be valid)
+    const phone = form.querySelector('#phone');
+    if (phone.value.trim()) {
+        const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+        if (!phoneRegex.test(phone.value.trim())) {
+            showFieldError(phone, 'Введите корректный номер телефона');
+            isValid = false;
+        } else {
+            clearFieldError(phone);
+        }
+    }
+    
+    // Validate message
+    const message = form.querySelector('#message');
+    if (!message.value.trim()) {
+        showFieldError(message, 'Сообщение обязательно для заполнения');
+        isValid = false;
+    } else if (message.value.trim().length < 10) {
+        showFieldError(message, 'Сообщение должно содержать минимум 10 символов');
+        isValid = false;
+    } else {
+        clearFieldError(message);
+    }
+    
+    return isValid;
+}
+
+function addRealTimeValidation(form) {
+    const inputs = form.querySelectorAll('input, textarea');
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', function() {
+            validateField(this);
+        });
+        
+        input.addEventListener('input', function() {
+            if (this.classList.contains('error')) {
+                validateField(this);
+            }
+        });
+    });
+}
+
+function validateField(field) {
+    const value = field.value.trim();
+    
+    switch (field.id) {
+        case 'name':
+            if (!value) {
+                showFieldError(field, 'Имя обязательно для заполнения');
+            } else if (value.length < 2) {
+                showFieldError(field, 'Имя должно содержать минимум 2 символа');
+            } else {
+                clearFieldError(field);
+            }
+            break;
+            
+        case 'email':
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!value) {
+                showFieldError(field, 'Email обязателен для заполнения');
+            } else if (!emailRegex.test(value)) {
+                showFieldError(field, 'Введите корректный email адрес');
+            } else {
+                clearFieldError(field);
+            }
+            break;
+            
+        case 'phone':
+            if (value) {
+                const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
+                if (!phoneRegex.test(value)) {
+                    showFieldError(field, 'Введите корректный номер телефона');
+                } else {
+                    clearFieldError(field);
+                }
+            } else {
+                clearFieldError(field);
+            }
+            break;
+            
+        case 'message':
+            if (!value) {
+                showFieldError(field, 'Сообщение обязательно для заполнения');
+            } else if (value.length < 10) {
+                showFieldError(field, 'Сообщение должно содержать минимум 10 символов');
+            } else {
+                clearFieldError(field);
+            }
+            break;
+    }
+}
+
+function showFieldError(field, message) {
+    field.classList.add('error');
+    
+    // Remove existing error message
+    const existingError = field.parentNode.querySelector('.field-error');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    // Add error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'field-error';
+    errorDiv.textContent = message;
+    field.parentNode.appendChild(errorDiv);
+}
+
+function clearFieldError(field) {
+    field.classList.remove('error');
+    
+    // Remove error message
+    const errorDiv = field.parentNode.querySelector('.field-error');
+    if (errorDiv) {
+        errorDiv.remove();
+    }
+}
+
+function clearValidationStates(form) {
+    const inputs = form.querySelectorAll('input, textarea');
+    inputs.forEach(input => {
+        clearFieldError(input);
+    });
+}
+
+function addValidationStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .form-group input.error,
+        .form-group textarea.error {
+            border-color: #dc2626 !important;
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+        }
+        
+        .field-error {
+            color: #dc2626;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .field-error::before {
+            content: "⚠";
+            font-size: 1rem;
+        }
+        
+        .form-notification {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .form-notification.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        
+        .form-notification.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function showFormNotification(message, type = 'info') {
+    const contactForm = document.getElementById('contactForm');
+    if (!contactForm) return;
+    
+    // Remove existing notification
+    const existingNotification = contactForm.parentNode.querySelector('.form-notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = `form-notification ${type}`;
+    notification.innerHTML = `
+        <span>${type === 'success' ? '✅' : '❌'}</span>
+        <span>${message}</span>
+    `;
+    
+    // Insert before form
+    contactForm.parentNode.insertBefore(notification, contactForm);
+    
+    // Auto remove after 5 seconds for success messages
+    if (type === 'success') {
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideUp 0.3s ease';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            }
+        }, 5000);
+    }
+}
 
 // Save message to localStorage
 function saveMessage(messageData) {
