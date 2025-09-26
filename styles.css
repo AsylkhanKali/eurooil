@@ -134,11 +134,11 @@ p {
 .social-contact {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .instagram-contact {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 /* Navigation */
@@ -608,8 +608,8 @@ p {
 }
 
 .whatsapp-contact {
-    margin-top: 2rem;
-    padding-top: 2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
     border-top: 1px solid var(--gray-200);
 }
 
