@@ -144,10 +144,14 @@
                     <p class="price-description">С учетом ж/д тарифа до нефтебазы, слив-налив, и хранения от месяца и более</p>
                 </div>
             </div>
-            <div class="quality-passport-link">
-                <a href="#" class="btn btn-primary" id="openPassportBtn">
+            <div class="quality-passport-links">
+                <a href="#" class="btn btn-primary" id="openPassportDieselBtn">
                     <i class="fas fa-file-pdf"></i>
-                    Посмотреть паспорт качества
+                    Посмотреть паспорт качества (Дизельное топливо)
+                </a>
+                <a href="#" class="btn btn-primary" id="openPassportAi92Btn">
+                    <i class="fas fa-file-pdf"></i>
+                    Посмотреть паспорт качества (Бензин АИ-92)
                 </a>
             </div>
         </div>
@@ -461,9 +465,9 @@
     <div id="pdfModal" class="pdf-modal">
         <div class="pdf-modal-content">
             <div class="pdf-modal-header">
-                <h3>Паспорт качества ДТ-Е-К4</h3>
+                <h3 id="passportModalTitle">Паспорт качества</h3>
                 <div class="pdf-modal-actions">
-                    <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="pdf-download-btn">
+                    <a id="passportDownloadLink" href="#" download class="pdf-download-btn">
                         <i class="fas fa-download"></i> Скачать
                     </a>
                     <button class="pdf-modal-close" id="closePdfModal">

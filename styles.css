@@ -440,9 +440,29 @@ p {
     margin: 0;
 }
 
+.quality-passport-links {
+    text-align: center;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
 .quality-passport-link {
     text-align: center;
     margin-top: 3rem;
+}
+
+@media (max-width: 768px) {
+    .quality-passport-links {
+        gap: 0.75rem;
+    }
+    
+    .quality-passport-links .btn {
+        width: 100%;
+        max-width: 400px;
+    }
 }
 
 /* Numbers Section */

@@ -89,61 +89,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // PDF Modal - Image viewer implementation
     const pdfModal = document.getElementById('pdfModal');
-    const openPassportBtn = document.getElementById('openPassportBtn');
+    const openPassportDieselBtn = document.getElementById('openPassportDieselBtn');
+    const openPassportAi92Btn = document.getElementById('openPassportAi92Btn');
     const closePdfModal = document.getElementById('closePdfModal');
     const passportImage = document.getElementById('passportImage');
     const prevPageBtn = document.getElementById('prevPageBtn');
     const nextPageBtn = document.getElementById('nextPageBtn');
     const currentPageNum = document.getElementById('currentPageNum');
     const totalPagesNum = document.getElementById('totalPagesNum');
+    const passportModalTitle = document.getElementById('passportModalTitle');
+    const passportDownloadLink = document.getElementById('passportDownloadLink');
 
     // Passport pages configuration
     let currentPage = 1;
-    let totalPages = 5; // Будет определено автоматически
-    const passportPages = [];
-    let pagesDetected = false;
+    let totalPages = 5;
+    let currentPassportType = null; // 'diesel' or 'ai92'
 
-    // Initialize passport pages array
-    function initPassportPages() {
-        // Автоматически определяем количество страниц
-        // Пробуем два формата именования
+    // Initialize passport pages count
+    function initPassportPages(passportType) {
         let foundPages = 0;
-        let checkCount = 0;
         const maxPagesToCheck = 20;
 
         function checkPage(pageNum) {
-            // Формат 1: Паспорт качества ДТ-Е-К4_page-0001.jpg
             const pageNumStr = String(pageNum).padStart(4, '0');
-            const filename1 = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
+            let filename;
             
-            // Формат 2: passport_page_1.jpg
-            const filename2 = `images/passport_pages/passport_page_${pageNum}.jpg`;
+            if (passportType === 'diesel') {
+                filename = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
+            } else if (passportType === 'ai92') {
+                filename = `images/passport2_pages/АИ-92-К4 ПАСПОРТ № 114.01 (1)_page-${pageNumStr}.jpg`;
+            } else {
+                return;
+            }
 
             const img = new Image();
-            let filename = filename1;
 
             img.onload = function() {
                 foundPages = pageNum;
                 totalPages = foundPages;
-                pagesDetected = true;
                 updatePageDisplay();
-                checkCount++;
                 if (pageNum < maxPagesToCheck) {
                     checkPage(pageNum + 1);
                 }
             };
 
             img.onerror = function() {
-                // Пробуем второй формат
-                if (filename === filename1) {
-                    filename = filename2;
-                    img.src = filename;
-                    return;
-                }
-                // Если оба формата не сработали, проверяем следующую страницу
-                checkCount++;
-                if (pageNum < maxPagesToCheck && foundPages === pageNum - 1) {
-                    checkPage(pageNum + 1);
+                // Больше страниц нет
+                if (foundPages > 0) {
+                    totalPages = foundPages;
+                    updatePageDisplay();
                 }
             };
 
@@ -159,22 +153,53 @@ document.addEventListener('DOMContentLoaded', function() {
         if (page < 1 || page > totalPages) return;
         currentPage = page;
         if (passportImage) {
-            // Пробуем первый формат
             const pageNumStr = String(page).padStart(4, '0');
-            const filename1 = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
-            const filename2 = `images/passport_pages/passport_page_${page}.jpg`;
+            let filename;
             
-            // Пробуем загрузить первый формат
-            passportImage.src = filename1;
-            passportImage.onerror = function() {
-                // Если не сработало, пробуем второй формат
-                passportImage.src = filename2;
+            if (currentPassportType === 'diesel') {
+                filename = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
+            } else if (currentPassportType === 'ai92') {
+                filename = `images/passport2_pages/АИ-92-К4 ПАСПОРТ № 114.01 (1)_page-${pageNumStr}.jpg`;
+            }
+            
+            if (filename) {
+                passportImage.src = filename;
                 passportImage.onerror = function() {
                     console.log(`Страница ${page} не найдена`);
                 };
-            };
+            }
         }
         updatePageDisplay();
+    }
+    
+    // Open passport modal with specific type
+    function openPassportModal(passportType) {
+        currentPassportType = passportType;
+        currentPage = 1;
+        
+        if (passportType === 'diesel') {
+            if (passportModalTitle) passportModalTitle.textContent = 'Паспорт качества на Дизельное топливо';
+            if (passportDownloadLink) {
+                passportDownloadLink.href = 'images/Паспорт качества ДТ-Е-К4.pdf';
+                passportDownloadLink.download = 'Паспорт качества ДТ-Е-К4.pdf';
+            }
+            totalPages = 5; // Устанавливаем начальное значение
+        } else if (passportType === 'ai92') {
+            if (passportModalTitle) passportModalTitle.textContent = 'Паспорт качества на Бензин АИ-92';
+            if (passportDownloadLink) {
+                // Если есть PDF файл для АИ-92, укажите его здесь
+                passportDownloadLink.href = '#';
+                passportDownloadLink.style.display = 'none'; // Скрываем кнопку скачивания если нет PDF
+            }
+            totalPages = 6; // Устанавливаем начальное значение
+        }
+        
+        if (pdfModal) {
+            pdfModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            loadPassportPage(1);
+            initPassportPages(passportType);
+        }
     }
 
     // Update page display
@@ -185,16 +210,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nextPageBtn) nextPageBtn.disabled = currentPage >= totalPages;
     }
 
-    // Open PDF modal
-    if (openPassportBtn) {
-        openPassportBtn.addEventListener('click', function(e) {
+    // Open PDF modal for Diesel
+    if (openPassportDieselBtn) {
+        openPassportDieselBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            if (pdfModal) {
-                pdfModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                currentPage = 1;
-                loadPassportPage(1);
-            }
+            openPassportModal('diesel');
+        });
+    }
+
+    // Open PDF modal for AI-92
+    if (openPassportAi92Btn) {
+        openPassportAi92Btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openPassportModal('ai92');
         });
     }
 
