@@ -99,31 +99,59 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Passport pages configuration
     let currentPage = 1;
-    let totalPages = 10; // Обновите после конвертации PDF
+    let totalPages = 5; // Будет определено автоматически
     const passportPages = [];
+    let pagesDetected = false;
 
     // Initialize passport pages array
     function initPassportPages() {
         // Автоматически определяем количество страниц
-        let maxPages = 0;
-        for (let i = 1; i <= 50; i++) {
+        // Пробуем два формата именования
+        let foundPages = 0;
+        let checkCount = 0;
+        const maxPagesToCheck = 20;
+
+        function checkPage(pageNum) {
+            // Формат 1: Паспорт качества ДТ-Е-К4_page-0001.jpg
+            const pageNumStr = String(pageNum).padStart(4, '0');
+            const filename1 = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
+            
+            // Формат 2: passport_page_1.jpg
+            const filename2 = `images/passport_pages/passport_page_${pageNum}.jpg`;
+
             const img = new Image();
-            img.src = `images/passport_pages/passport_page_${i}.jpg`;
+            let filename = filename1;
+
             img.onload = function() {
-                if (i > maxPages) {
-                    maxPages = i;
-                    totalPages = maxPages;
-                    updatePageDisplay();
+                foundPages = pageNum;
+                totalPages = foundPages;
+                pagesDetected = true;
+                updatePageDisplay();
+                checkCount++;
+                if (pageNum < maxPagesToCheck) {
+                    checkPage(pageNum + 1);
                 }
             };
+
             img.onerror = function() {
-                if (i === 1 && maxPages === 0) {
-                    // Если первая страница не найдена, показываем fallback
-                    console.log('Изображения паспорта не найдены. Запустите скрипт конвертации: python3 convert_pdf.py');
+                // Пробуем второй формат
+                if (filename === filename1) {
+                    filename = filename2;
+                    img.src = filename;
+                    return;
                 }
-                return false;
+                // Если оба формата не сработали, проверяем следующую страницу
+                checkCount++;
+                if (pageNum < maxPagesToCheck && foundPages === pageNum - 1) {
+                    checkPage(pageNum + 1);
+                }
             };
+
+            img.src = filename;
         }
+
+        // Начинаем проверку с первой страницы
+        checkPage(1);
     }
 
     // Load passport page
@@ -131,9 +159,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (page < 1 || page > totalPages) return;
         currentPage = page;
         if (passportImage) {
-            passportImage.src = `images/passport_pages/passport_page_${page}.jpg`;
+            // Пробуем первый формат
+            const pageNumStr = String(page).padStart(4, '0');
+            const filename1 = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
+            const filename2 = `images/passport_pages/passport_page_${page}.jpg`;
+            
+            // Пробуем загрузить первый формат
+            passportImage.src = filename1;
             passportImage.onerror = function() {
-                console.log(`Страница ${page} не найдена`);
+                // Если не сработало, пробуем второй формат
+                passportImage.src = filename2;
+                passportImage.onerror = function() {
+                    console.log(`Страница ${page} не найдена`);
+                };
             };
         }
         updatePageDisplay();
