@@ -286,8 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize passport pages on load
-    initPassportPages();
+    // Initialize page display
     updatePageDisplay();
 
     // Add active class to navigation links based on scroll position
