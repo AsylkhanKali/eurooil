@@ -87,24 +87,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // PDF Modal functionality
+    // PDF Modal - Simple implementation
     const pdfModal = document.getElementById('pdfModal');
     const openPassportBtn = document.getElementById('openPassportBtn');
     const closePdfModal = document.getElementById('closePdfModal');
-    const pdfViewer = document.getElementById('pdfViewer');
-    const prevPageBtn = document.getElementById('prevPage');
-    const nextPageBtn = document.getElementById('nextPage');
-    const zoomInBtn = document.getElementById('zoomIn');
-    const zoomOutBtn = document.getElementById('zoomOut');
-    const fitWidthBtn = document.getElementById('fitWidth');
-    const currentPageSpan = document.getElementById('currentPage');
-    const totalPagesSpan = document.getElementById('totalPages');
-    const zoomLevelSpan = document.getElementById('zoomLevel');
-    const openNewWindowBtn = document.getElementById('openNewWindow');
-
-    let currentPage = 1;
-    let totalPages = 10; // Примерное количество страниц, можно увеличить при необходимости
-    let currentZoom = 100;
 
     // Open PDF modal
     if (openPassportBtn) {
@@ -113,9 +99,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pdfModal) {
                 pdfModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
-                currentPage = 1;
-                currentZoom = 100;
-                loadPdf();
             }
         });
     }
@@ -147,128 +130,6 @@ document.addEventListener('DOMContentLoaded', function() {
             closeModal();
         }
     });
-
-    // Load PDF
-    function loadPdf() {
-        const pdfUrl = 'images/Паспорт качества ДТ-Е-К4.pdf';
-        if (pdfViewer) {
-            // Используем object тег для просмотра PDF
-            // Формируем URL с параметрами страницы и масштаба
-            let viewerUrl = pdfUrl;
-            
-            // Добавляем параметры для навигации
-            const params = [];
-            if (currentPage > 1) {
-                params.push('page=' + currentPage);
-            }
-            if (currentZoom !== 100) {
-                params.push('zoom=' + currentZoom);
-            }
-            
-            if (params.length > 0) {
-                viewerUrl += '#' + params.join('&');
-            }
-            
-            // Устанавливаем data атрибут для object тега
-            pdfViewer.data = viewerUrl;
-            
-            updatePageControls();
-            updateZoom();
-        }
-    }
-
-    // Update page controls
-    function updatePageControls() {
-        if (currentPageSpan) {
-            currentPageSpan.textContent = currentPage;
-        }
-        if (totalPagesSpan) {
-            totalPagesSpan.textContent = totalPages;
-        }
-        
-        // Update mobile page info
-        const currentPageMobile = document.getElementById('currentPageMobile');
-        const totalPagesMobile = document.getElementById('totalPagesMobile');
-        if (currentPageMobile) {
-            currentPageMobile.textContent = currentPage;
-        }
-        if (totalPagesMobile) {
-            totalPagesMobile.textContent = totalPages;
-        }
-        
-        if (prevPageBtn) {
-            prevPageBtn.disabled = currentPage <= 1;
-        }
-        if (nextPageBtn) {
-            nextPageBtn.disabled = currentPage >= totalPages;
-        }
-    }
-
-    // Navigate to previous page
-    if (prevPageBtn) {
-        prevPageBtn.addEventListener('click', function() {
-            if (currentPage > 1) {
-                currentPage--;
-                loadPdf();
-            }
-        });
-    }
-
-    // Navigate to next page
-    if (nextPageBtn) {
-        nextPageBtn.addEventListener('click', function() {
-            if (currentPage < totalPages) {
-                currentPage++;
-                loadPdf();
-            }
-        });
-    }
-
-    // Zoom in
-    if (zoomInBtn) {
-        zoomInBtn.addEventListener('click', function() {
-            currentZoom = Math.min(currentZoom + 25, 200);
-            updateZoom();
-            loadPdf();
-        });
-    }
-
-    // Zoom out
-    if (zoomOutBtn) {
-        zoomOutBtn.addEventListener('click', function() {
-            currentZoom = Math.max(currentZoom - 25, 50);
-            updateZoom();
-            loadPdf();
-        });
-    }
-
-    // Fit to width
-    if (fitWidthBtn) {
-        fitWidthBtn.addEventListener('click', function() {
-            currentZoom = 100;
-            updateZoom();
-            loadPdf();
-        });
-    }
-
-    // Open PDF in new window
-    if (openNewWindowBtn) {
-        openNewWindowBtn.addEventListener('click', function() {
-            const pdfUrl = 'images/Паспорт качества ДТ-Е-К4.pdf';
-            window.open(pdfUrl, '_blank');
-        });
-    }
-
-    // Update zoom display
-    function updateZoom() {
-        if (zoomLevelSpan) {
-            zoomLevelSpan.textContent = currentZoom;
-        }
-    }
-
-    // Initialize PDF controls
-    updatePageControls();
-    updateZoom();
 
     // Add active class to navigation links based on scroll position
     function updateActiveNavLink() {

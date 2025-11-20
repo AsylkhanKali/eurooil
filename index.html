@@ -462,63 +462,17 @@
         <div class="pdf-modal-content">
             <div class="pdf-modal-header">
                 <h3>Паспорт качества ДТ-Е-К4</h3>
-                <button class="pdf-modal-close" id="closePdfModal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="pdf-modal-actions">
+                    <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="pdf-download-btn">
+                        <i class="fas fa-download"></i> Скачать
+                    </a>
+                    <button class="pdf-modal-close" id="closePdfModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
-            <div class="pdf-viewer-container">
-                <div class="pdf-controls">
-                    <div class="pdf-controls-desktop">
-                        <button class="pdf-btn" id="prevPage">
-                            <i class="fas fa-chevron-left"></i> Предыдущая
-                        </button>
-                        <span class="pdf-page-info">
-                            Страница <span id="currentPage">1</span> из <span id="totalPages">1</span>
-                        </span>
-                        <button class="pdf-btn" id="nextPage">
-                            Следующая <i class="fas fa-chevron-right"></i>
-                        </button>
-                        <button class="pdf-btn" id="zoomOut">
-                            <i class="fas fa-search-minus"></i>
-                        </button>
-                        <span class="pdf-zoom-info">
-                            <span id="zoomLevel">100</span>%
-                        </span>
-                        <button class="pdf-btn" id="zoomIn">
-                            <i class="fas fa-search-plus"></i>
-                        </button>
-                        <button class="pdf-btn" id="fitWidth">
-                            По ширине
-                        </button>
-                    </div>
-                    <div class="pdf-controls-mobile">
-                        <span class="pdf-page-info-mobile">
-                            <span id="currentPageMobile">1</span> / <span id="totalPagesMobile">1</span>
-                        </span>
-                    </div>
-                    <div class="pdf-controls-actions">
-                        <button class="pdf-btn pdf-btn-action" id="openNewWindow">
-                            <i class="fas fa-external-link-alt"></i> <span class="pdf-btn-text">Открыть в новом окне</span>
-                        </button>
-                        <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="pdf-btn pdf-download pdf-btn-action">
-                            <i class="fas fa-download"></i> <span class="pdf-btn-text">Скачать</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="pdf-viewer-wrapper">
-                    <object id="pdfViewer" data="" type="application/pdf" style="width: 100%; height: 100%;">
-                        <div class="pdf-error">
-                            <p>PDF не может быть отображен в браузере.</p>
-                            <p>Пожалуйста, используйте кнопку ниже для открытия или скачивания документа:</p>
-                            <a href="images/Паспорт качества ДТ-Е-К4.pdf" target="_blank" class="btn btn-primary">
-                                <i class="fas fa-external-link-alt"></i> Открыть в новом окне
-                            </a>
-                            <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="btn btn-secondary" style="margin-left: 10px;">
-                                <i class="fas fa-download"></i> Скачать PDF
-                            </a>
-                        </div>
-                    </object>
-                </div>
+            <div class="pdf-viewer-wrapper">
+                <embed id="pdfViewer" src="images/Паспорт качества ДТ-Е-К4.pdf" type="application/pdf" />
             </div>
         </div>
     </div>
