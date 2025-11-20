@@ -34,17 +34,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Number Counter Animation
-    function animateCounter(element, target, duration = 1300) {
+    function animateCounter(element, target, duration = 1500) {
         let start = 0;
         const increment = target / (duration / 16);
         
         function updateCounter() {
             start += increment;
             if (start < target) {
-                element.textContent = Math.floor(start);
+                element.textContent = Math.floor(start).toLocaleString('ru-RU');
                 requestAnimationFrame(updateCounter);
             } else {
-                element.textContent = target;
+                element.textContent = target.toLocaleString('ru-RU');
             }
         }
         
@@ -61,9 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const numberElement = entry.target.querySelector('.number-value');
-                const target = parseInt(numberElement.getAttribute('data-target'));
-                animateCounter(numberElement, target);
-                numberObserver.unobserve(entry.target);
+                if (numberElement) {
+                    const target = parseInt(numberElement.getAttribute('data-target'));
+                    animateCounter(numberElement, target);
+                    numberObserver.unobserve(entry.target);
+                }
             }
         });
     }, observerOptions);
@@ -78,114 +80,157 @@ document.addEventListener('DOMContentLoaded', function() {
         const navbar = document.querySelector('.navbar');
         if (navbar) {
             if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(15, 23, 42, 0.98)';
+                navbar.style.backgroundColor = 'rgba(10, 25, 41, 0.98)';
             } else {
-                navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+                navbar.style.backgroundColor = 'rgba(10, 25, 41, 1)';
             }
         }
     });
 
+    // PDF Modal functionality
+    const pdfModal = document.getElementById('pdfModal');
+    const openPassportBtn = document.getElementById('openPassportBtn');
+    const closePdfModal = document.getElementById('closePdfModal');
+    const pdfViewer = document.getElementById('pdfViewer');
+    const prevPageBtn = document.getElementById('prevPage');
+    const nextPageBtn = document.getElementById('nextPage');
+    const zoomInBtn = document.getElementById('zoomIn');
+    const zoomOutBtn = document.getElementById('zoomOut');
+    const fitWidthBtn = document.getElementById('fitWidth');
+    const currentPageSpan = document.getElementById('currentPage');
+    const totalPagesSpan = document.getElementById('totalPages');
+    const zoomLevelSpan = document.getElementById('zoomLevel');
 
-    
+    let currentPage = 1;
+    let totalPages = 10; // Примерное количество страниц, можно увеличить при необходимости
+    let currentZoom = 100;
 
-});
-
-
-
-// Add CSS animations
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// Function to get all messages (for admin panel)
-function getAllMessages() {
-    return JSON.parse(localStorage.getItem('eurooil_messages') || '[]');
-}
-
-// Function to export messages as JSON
-function exportMessages() {
-    const messages = getAllMessages();
-    const dataStr = JSON.stringify(messages, null, 2);
-    const dataBlob = new Blob([dataStr], {type: 'application/json'});
-    
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(dataBlob);
-    link.download = `eurooil_messages_${new Date().toISOString().split('T')[0]}.json`;
-    link.click();
-}
-
-// Admin panel functions (you can access these from browser console)
-window.EuroOilAdmin = {
-    getAllMessages: getAllMessages,
-    exportMessages: exportMessages,
-    clearMessages: function() {
-        localStorage.removeItem('eurooil_messages');
-        console.log('All messages cleared');
-    }
-};
-
-console.log('EuroOil Admin Panel loaded. Use EuroOilAdmin.getAllMessages() to view messages.');
-
-// Lazy loading for images
-function lazyLoadImages() {
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.remove('lazy');
-                imageObserver.unobserve(img);
+    // Open PDF modal
+    if (openPassportBtn) {
+        openPassportBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (pdfModal) {
+                pdfModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                currentPage = 1;
+                currentZoom = 100;
+                loadPdf();
             }
         });
-    });
-    
-    images.forEach(img => imageObserver.observe(img));
-}
+    }
 
-// Initialize lazy loading
-document.addEventListener('DOMContentLoaded', lazyLoadImages);
+    // Close PDF modal
+    function closeModal() {
+        if (pdfModal) {
+            pdfModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
 
-// Add loading animation for fleet images
-document.querySelectorAll('.fleet-image img').forEach(img => {
-    img.addEventListener('load', function() {
-        this.style.opacity = '1';
-    });
-    
-    img.addEventListener('error', function() {
-        this.style.opacity = '0.8';
-    });
-    
-    // Parallax effect for hero section
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroBackground = document.querySelector('.hero-background');
-        if (heroBackground) {
-            heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
+    if (closePdfModal) {
+        closePdfModal.addEventListener('click', closeModal);
+    }
+
+    // Close modal when clicking outside
+    if (pdfModal) {
+        pdfModal.addEventListener('click', function(e) {
+            if (e.target === pdfModal) {
+                closeModal();
+            }
+        });
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && pdfModal && pdfModal.classList.contains('active')) {
+            closeModal();
         }
     });
+
+    // Load PDF
+    function loadPdf() {
+        const pdfUrl = 'images/Паспорт качества ДТ-Е-К4.pdf';
+        if (pdfViewer) {
+            // Используем простой iframe для просмотра PDF
+            pdfViewer.src = pdfUrl + '#page=' + currentPage + '&zoom=' + currentZoom;
+            updatePageControls();
+            updateZoom();
+        }
+    }
+
+    // Update page controls
+    function updatePageControls() {
+        if (currentPageSpan) {
+            currentPageSpan.textContent = currentPage;
+        }
+        if (totalPagesSpan) {
+            totalPagesSpan.textContent = totalPages;
+        }
+        if (prevPageBtn) {
+            prevPageBtn.disabled = currentPage <= 1;
+        }
+        if (nextPageBtn) {
+            nextPageBtn.disabled = currentPage >= totalPages;
+        }
+    }
+
+    // Navigate to previous page
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                loadPdf();
+            }
+        });
+    }
+
+    // Navigate to next page
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                loadPdf();
+            }
+        });
+    }
+
+    // Zoom in
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener('click', function() {
+            currentZoom = Math.min(currentZoom + 25, 200);
+            updateZoom();
+            loadPdf();
+        });
+    }
+
+    // Zoom out
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener('click', function() {
+            currentZoom = Math.max(currentZoom - 25, 50);
+            updateZoom();
+            loadPdf();
+        });
+    }
+
+    // Fit to width
+    if (fitWidthBtn) {
+        fitWidthBtn.addEventListener('click', function() {
+            currentZoom = 100;
+            updateZoom();
+            loadPdf();
+        });
+    }
+
+    // Update zoom display
+    function updateZoom() {
+        if (zoomLevelSpan) {
+            zoomLevelSpan.textContent = currentZoom;
+        }
+    }
+
+    // Initialize PDF controls
+    updatePageControls();
+    updateZoom();
 
     // Add active class to navigation links based on scroll position
     function updateActiveNavLink() {
@@ -209,18 +254,6 @@ document.querySelectorAll('.fleet-image img').forEach(img => {
         });
     }
 
-    window.addEventListener('scroll', updateActiveNavLink);
-
-    // Add CSS for active navigation link
-    const navStyle = document.createElement('style');
-    navStyle.textContent = `
-        .nav-link.active {
-            color: var(--accent-orange) !important;
-            font-weight: 600;
-        }
-    `;
-    document.head.appendChild(navStyle);
-
     // Performance optimization: Debounce scroll events
     function debounce(func, wait) {
         let timeout;
@@ -234,46 +267,13 @@ document.querySelectorAll('.fleet-image img').forEach(img => {
         };
     }
 
-    // Apply debouncing to scroll events
-    const debouncedScrollHandler = debounce(() => {
-        updateActiveNavLink();
-    }, 10);
-
+    const debouncedScrollHandler = debounce(updateActiveNavLink, 50);
     window.addEventListener('scroll', debouncedScrollHandler);
-
-    // Add loading state to buttons
-    document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (this.type === 'submit') {
-                this.style.opacity = '0.7';
-                this.disabled = true;
-                
-                setTimeout(() => {
-                    this.style.opacity = '1';
-                    this.disabled = false;
-                }, 2000);
-            }
-        });
-    });
 
     // Initialize tooltips for service tags
     document.querySelectorAll('.service-tag').forEach(tag => {
-        tag.title = `Доступно на этой станции`;
+        tag.title = 'Доступно на этой станции';
     });
 
-    // Add hover effect for fleet cards
-    document.querySelectorAll('.fleet-card').forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) scale(1.02)';
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) scale(1)';
-        });
-    });
-
-    // Site loaded successfully
     console.log('Сайт EuroOil успешно загружен!');
 });
-
- 

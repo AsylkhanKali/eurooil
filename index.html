@@ -41,6 +41,9 @@
                     <a href="#services" class="nav-link">Услуги</a>
                 </li>
                 <li class="nav-item">
+                    <a href="#prices" class="nav-link">Цены</a>
+                </li>
+                <li class="nav-item">
                     <a href="#numbers" class="nav-link">Цифры</a>
                 </li>
                 <li class="nav-item">
@@ -108,6 +111,44 @@
                     <h3>Автозаправочные станции</h3>
                     <p>Сеть собственных АЗС в Павлодаре и Уржаре, предлагающих качественное топливо АИ-92, АИ-95 и дизельное топливо с дополнительными услугами для клиентов.</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prices Section -->
+    <section id="prices" class="prices">
+        <div class="container">
+            <div class="section-header">
+                <h2>Цены на топливо</h2>
+                <p>Оптовые цены на нефтепродукты с хранением</p>
+            </div>
+            <div class="prices-grid">
+                <div class="price-card">
+                    <div class="price-icon">
+                        <i class="fas fa-oil-can"></i>
+                    </div>
+                    <h3>Дизельное топливо</h3>
+                    <p class="price-subtitle">Межсезонное класс Е-18</p>
+                    <div class="price-value">355 000</div>
+                    <div class="price-unit">тенге за тонну</div>
+                    <p class="price-description">Цена на нефтебазе с хранением на месяц и более</p>
+                </div>
+                <div class="price-card">
+                    <div class="price-icon">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <h3>Бензин АИ-92</h3>
+                    <p class="price-subtitle">Марка АИ-92</p>
+                    <div class="price-value">280 000</div>
+                    <div class="price-unit">тенге за тонну</div>
+                    <p class="price-description">С учетом ж/д тарифа до нефтебазы, слив-налив, и хранения от месяца и более</p>
+                </div>
+            </div>
+            <div class="quality-passport-link">
+                <a href="#" class="btn btn-primary" id="openPassportBtn">
+                    <i class="fas fa-file-pdf"></i>
+                    Посмотреть паспорт качества
+                </a>
             </div>
         </div>
     </section>
@@ -390,6 +431,7 @@
                     <ul>
                         <li><a href="#home">Главная</a></li>
                         <li><a href="#services">Услуги</a></li>
+                        <li><a href="#prices">Цены</a></li>
                         <li><a href="#fleet">Автопарк</a></li>
                         <li><a href="#stations">АЗС</a></li>
                     </ul>
@@ -414,6 +456,55 @@
             </div>
         </div>
     </footer>
+
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="pdf-modal">
+        <div class="pdf-modal-content">
+            <div class="pdf-modal-header">
+                <h3>Паспорт качества ДТ-Е-К4</h3>
+                <button class="pdf-modal-close" id="closePdfModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="pdf-viewer-container">
+                <div class="pdf-controls">
+                    <button class="pdf-btn" id="prevPage">
+                        <i class="fas fa-chevron-left"></i> Предыдущая
+                    </button>
+                    <span class="pdf-page-info">
+                        Страница <span id="currentPage">1</span> из <span id="totalPages">1</span>
+                    </span>
+                    <button class="pdf-btn" id="nextPage">
+                        Следующая <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="pdf-btn" id="zoomOut">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <span class="pdf-zoom-info">
+                        <span id="zoomLevel">100</span>%
+                    </span>
+                    <button class="pdf-btn" id="zoomIn">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="pdf-btn" id="fitWidth">
+                        По ширине
+                    </button>
+                    <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="pdf-btn pdf-download">
+                        <i class="fas fa-download"></i> Скачать
+                    </a>
+                </div>
+                <div class="pdf-viewer-wrapper">
+                    <iframe id="pdfViewer" src="" type="application/pdf"></iframe>
+                    <div id="pdfError" class="pdf-error" style="display: none;">
+                        <p>Если PDF не отображается, вы можете:</p>
+                        <a href="images/Паспорт качества ДТ-Е-К4.pdf" target="_blank" class="btn btn-primary">
+                            <i class="fas fa-external-link-alt"></i> Открыть в новом окне
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
