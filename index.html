@@ -472,7 +472,20 @@
                 </div>
             </div>
             <div class="pdf-viewer-wrapper">
-                <iframe id="pdfViewer" src="images/Паспорт качества ДТ-Е-К4.pdf#toolbar=1&navpanes=1&scrollbar=1" type="application/pdf" frameborder="0"></iframe>
+                <div class="passport-image-container">
+                    <img id="passportImage" src="" alt="Паспорт качества" class="passport-image" />
+                </div>
+                <div class="passport-controls">
+                    <button class="passport-nav-btn" id="prevPageBtn" disabled>
+                        <i class="fas fa-chevron-left"></i> Предыдущая
+                    </button>
+                    <span class="passport-page-info">
+                        Страница <span id="currentPageNum">1</span> из <span id="totalPagesNum">1</span>
+                    </span>
+                    <button class="passport-nav-btn" id="nextPageBtn">
+                        Следующая <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

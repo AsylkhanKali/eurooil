@@ -62,9 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (entry.isIntersecting) {
                 const numberElement = entry.target.querySelector('.number-value');
                 if (numberElement) {
-                    const target = parseInt(numberElement.getAttribute('data-target'));
-                    animateCounter(numberElement, target);
-                    numberObserver.unobserve(entry.target);
+                const target = parseInt(numberElement.getAttribute('data-target'));
+                animateCounter(numberElement, target);
+                numberObserver.unobserve(entry.target);
                 }
             }
         });
@@ -87,10 +87,65 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // PDF Modal - Simple implementation
+    // PDF Modal - Image viewer implementation
     const pdfModal = document.getElementById('pdfModal');
     const openPassportBtn = document.getElementById('openPassportBtn');
     const closePdfModal = document.getElementById('closePdfModal');
+    const passportImage = document.getElementById('passportImage');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
+    const currentPageNum = document.getElementById('currentPageNum');
+    const totalPagesNum = document.getElementById('totalPagesNum');
+
+    // Passport pages configuration
+    let currentPage = 1;
+    let totalPages = 10; // Обновите после конвертации PDF
+    const passportPages = [];
+
+    // Initialize passport pages array
+    function initPassportPages() {
+        // Автоматически определяем количество страниц
+        let maxPages = 0;
+        for (let i = 1; i <= 50; i++) {
+            const img = new Image();
+            img.src = `images/passport_pages/passport_page_${i}.jpg`;
+            img.onload = function() {
+                if (i > maxPages) {
+                    maxPages = i;
+                    totalPages = maxPages;
+                    updatePageDisplay();
+                }
+            };
+            img.onerror = function() {
+                if (i === 1 && maxPages === 0) {
+                    // Если первая страница не найдена, показываем fallback
+                    console.log('Изображения паспорта не найдены. Запустите скрипт конвертации: python3 convert_pdf.py');
+                }
+                return false;
+            };
+        }
+    }
+
+    // Load passport page
+    function loadPassportPage(page) {
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        if (passportImage) {
+            passportImage.src = `images/passport_pages/passport_page_${page}.jpg`;
+            passportImage.onerror = function() {
+                console.log(`Страница ${page} не найдена`);
+            };
+        }
+        updatePageDisplay();
+    }
+
+    // Update page display
+    function updatePageDisplay() {
+        if (currentPageNum) currentPageNum.textContent = currentPage;
+        if (totalPagesNum) totalPagesNum.textContent = totalPages;
+        if (prevPageBtn) prevPageBtn.disabled = currentPage <= 1;
+        if (nextPageBtn) nextPageBtn.disabled = currentPage >= totalPages;
+    }
 
     // Open PDF modal
     if (openPassportBtn) {
@@ -99,6 +154,31 @@ document.addEventListener('DOMContentLoaded', function() {
             if (pdfModal) {
                 pdfModal.classList.add('active');
                 document.body.style.overflow = 'hidden';
+                currentPage = 1;
+                loadPassportPage(1);
+            }
+        });
+    }
+
+    // Navigation buttons
+    if (prevPageBtn) {
+        prevPageBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                loadPassportPage(currentPage - 1);
+                // Scroll to top of image
+                const container = document.querySelector('.passport-image-container');
+                if (container) container.scrollTop = 0;
+            }
+        });
+    }
+
+    if (nextPageBtn) {
+        nextPageBtn.addEventListener('click', function() {
+            if (currentPage < totalPages) {
+                loadPassportPage(currentPage + 1);
+                // Scroll to top of image
+                const container = document.querySelector('.passport-image-container');
+                if (container) container.scrollTop = 0;
             }
         });
     }
@@ -129,7 +209,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Escape' && pdfModal && pdfModal.classList.contains('active')) {
             closeModal();
         }
+        // Arrow keys for navigation
+        if (pdfModal && pdfModal.classList.contains('active')) {
+            if (e.key === 'ArrowLeft' && currentPage > 1) {
+                loadPassportPage(currentPage - 1);
+            }
+            if (e.key === 'ArrowRight' && currentPage < totalPages) {
+                loadPassportPage(currentPage + 1);
+            }
+        }
     });
+
+    // Initialize passport pages on load
+    initPassportPages();
+    updatePageDisplay();
 
     // Add active class to navigation links based on scroll position
     function updateActiveNavLink() {
@@ -176,3 +269,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log('Сайт EuroOil успешно загружен!');
 });
+ 
