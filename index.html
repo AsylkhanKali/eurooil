@@ -489,18 +489,26 @@
                     <button class="pdf-btn" id="fitWidth">
                         По ширине
                     </button>
+                    <button class="pdf-btn" id="openNewWindow">
+                        <i class="fas fa-external-link-alt"></i> Открыть в новом окне
+                    </button>
                     <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="pdf-btn pdf-download">
                         <i class="fas fa-download"></i> Скачать
                     </a>
                 </div>
                 <div class="pdf-viewer-wrapper">
-                    <iframe id="pdfViewer" src="" type="application/pdf"></iframe>
-                    <div id="pdfError" class="pdf-error" style="display: none;">
-                        <p>Если PDF не отображается, вы можете:</p>
-                        <a href="images/Паспорт качества ДТ-Е-К4.pdf" target="_blank" class="btn btn-primary">
-                            <i class="fas fa-external-link-alt"></i> Открыть в новом окне
-                        </a>
-                    </div>
+                    <object id="pdfViewer" data="" type="application/pdf" style="width: 100%; height: 100%;">
+                        <div class="pdf-error">
+                            <p>PDF не может быть отображен в браузере.</p>
+                            <p>Пожалуйста, используйте кнопку ниже для открытия или скачивания документа:</p>
+                            <a href="images/Паспорт качества ДТ-Е-К4.pdf" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> Открыть в новом окне
+                            </a>
+                            <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="btn btn-secondary" style="margin-left: 10px;">
+                                <i class="fas fa-download"></i> Скачать PDF
+                            </a>
+                        </div>
+                    </object>
                 </div>
             </div>
         </div>

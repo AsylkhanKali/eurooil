@@ -100,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentPageSpan = document.getElementById('currentPage');
     const totalPagesSpan = document.getElementById('totalPages');
     const zoomLevelSpan = document.getElementById('zoomLevel');
+    const openNewWindowBtn = document.getElementById('openNewWindow');
 
     let currentPage = 1;
     let totalPages = 10; // Примерное количество страниц, можно увеличить при необходимости
@@ -151,8 +152,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadPdf() {
         const pdfUrl = 'images/Паспорт качества ДТ-Е-К4.pdf';
         if (pdfViewer) {
-            // Используем простой iframe для просмотра PDF
-            pdfViewer.src = pdfUrl + '#page=' + currentPage + '&zoom=' + currentZoom;
+            // Используем object тег для просмотра PDF
+            // Формируем URL с параметрами страницы и масштаба
+            let viewerUrl = pdfUrl;
+            
+            // Добавляем параметры для навигации
+            const params = [];
+            if (currentPage > 1) {
+                params.push('page=' + currentPage);
+            }
+            if (currentZoom !== 100) {
+                params.push('zoom=' + currentZoom);
+            }
+            
+            if (params.length > 0) {
+                viewerUrl += '#' + params.join('&');
+            }
+            
+            // Устанавливаем data атрибут для object тега
+            pdfViewer.data = viewerUrl;
+            
             updatePageControls();
             updateZoom();
         }
@@ -218,6 +237,14 @@ document.addEventListener('DOMContentLoaded', function() {
             currentZoom = 100;
             updateZoom();
             loadPdf();
+        });
+    }
+
+    // Open PDF in new window
+    if (openNewWindowBtn) {
+        openNewWindowBtn.addEventListener('click', function() {
+            const pdfUrl = 'images/Паспорт качества ДТ-Е-К4.pdf';
+            window.open(pdfUrl, '_blank');
         });
     }
 
