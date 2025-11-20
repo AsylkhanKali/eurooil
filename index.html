@@ -468,33 +468,42 @@
             </div>
             <div class="pdf-viewer-container">
                 <div class="pdf-controls">
-                    <button class="pdf-btn" id="prevPage">
-                        <i class="fas fa-chevron-left"></i> Предыдущая
-                    </button>
-                    <span class="pdf-page-info">
-                        Страница <span id="currentPage">1</span> из <span id="totalPages">1</span>
-                    </span>
-                    <button class="pdf-btn" id="nextPage">
-                        Следующая <i class="fas fa-chevron-right"></i>
-                    </button>
-                    <button class="pdf-btn" id="zoomOut">
-                        <i class="fas fa-search-minus"></i>
-                    </button>
-                    <span class="pdf-zoom-info">
-                        <span id="zoomLevel">100</span>%
-                    </span>
-                    <button class="pdf-btn" id="zoomIn">
-                        <i class="fas fa-search-plus"></i>
-                    </button>
-                    <button class="pdf-btn" id="fitWidth">
-                        По ширине
-                    </button>
-                    <button class="pdf-btn" id="openNewWindow">
-                        <i class="fas fa-external-link-alt"></i> Открыть в новом окне
-                    </button>
-                    <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="pdf-btn pdf-download">
-                        <i class="fas fa-download"></i> Скачать
-                    </a>
+                    <div class="pdf-controls-desktop">
+                        <button class="pdf-btn" id="prevPage">
+                            <i class="fas fa-chevron-left"></i> Предыдущая
+                        </button>
+                        <span class="pdf-page-info">
+                            Страница <span id="currentPage">1</span> из <span id="totalPages">1</span>
+                        </span>
+                        <button class="pdf-btn" id="nextPage">
+                            Следующая <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="pdf-btn" id="zoomOut">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <span class="pdf-zoom-info">
+                            <span id="zoomLevel">100</span>%
+                        </span>
+                        <button class="pdf-btn" id="zoomIn">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button class="pdf-btn" id="fitWidth">
+                            По ширине
+                        </button>
+                    </div>
+                    <div class="pdf-controls-mobile">
+                        <span class="pdf-page-info-mobile">
+                            <span id="currentPageMobile">1</span> / <span id="totalPagesMobile">1</span>
+                        </span>
+                    </div>
+                    <div class="pdf-controls-actions">
+                        <button class="pdf-btn pdf-btn-action" id="openNewWindow">
+                            <i class="fas fa-external-link-alt"></i> <span class="pdf-btn-text">Открыть в новом окне</span>
+                        </button>
+                        <a href="images/Паспорт качества ДТ-Е-К4.pdf" download class="pdf-btn pdf-download pdf-btn-action">
+                            <i class="fas fa-download"></i> <span class="pdf-btn-text">Скачать</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="pdf-viewer-wrapper">
                     <object id="pdfViewer" data="" type="application/pdf" style="width: 100%; height: 100%;">

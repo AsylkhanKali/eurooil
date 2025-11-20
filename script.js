@@ -185,6 +185,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (totalPagesSpan) {
             totalPagesSpan.textContent = totalPages;
         }
+        
+        // Update mobile page info
+        const currentPageMobile = document.getElementById('currentPageMobile');
+        const totalPagesMobile = document.getElementById('totalPagesMobile');
+        if (currentPageMobile) {
+            currentPageMobile.textContent = currentPage;
+        }
+        if (totalPagesMobile) {
+            totalPagesMobile.textContent = totalPages;
+        }
+        
         if (prevPageBtn) {
             prevPageBtn.disabled = currentPage <= 1;
         }

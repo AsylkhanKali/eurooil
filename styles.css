@@ -751,6 +751,7 @@ p {
     flex-direction: column;
     border: 2px solid var(--border-color);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
 
 .pdf-modal-header {
@@ -798,12 +799,41 @@ p {
 .pdf-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 1rem;
     padding: 1rem;
     background-color: var(--gray-100);
     border-bottom: 1px solid var(--border-color);
     flex-wrap: wrap;
+}
+
+.pdf-controls-desktop {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.pdf-controls-mobile {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+
+.pdf-controls-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.pdf-btn-action {
+    white-space: nowrap;
+}
+
+.pdf-btn-text {
+    display: inline;
 }
 
 .pdf-btn {
@@ -852,11 +882,13 @@ p {
 
 .pdf-viewer-wrapper {
     flex: 1;
-    overflow: auto;
+    overflow: hidden;
     background-color: #525252;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 0;
+    position: relative;
 }
 
 .pdf-viewer-wrapper object {
@@ -1030,19 +1062,81 @@ p {
         font-size: 2.5rem;
     }
 
+    .pdf-modal {
+        padding: 0;
+    }
+
     .pdf-modal-content {
         width: 100%;
         height: 100%;
+        max-width: 100%;
+        border: none;
+    }
+
+    .pdf-modal-header {
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .pdf-modal-header h3 {
+        font-size: 1.1rem;
+        flex: 1;
+        min-width: 0;
+    }
+
+    .pdf-modal-close {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        flex-shrink: 0;
     }
 
     .pdf-controls {
-        flex-direction: column;
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .pdf-controls-desktop {
+        display: none !important;
+    }
+
+    .pdf-controls-mobile {
+        display: flex !important;
+    }
+
+    .pdf-page-info-mobile {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text-dark);
+    }
+
+    .pdf-controls-actions {
+        flex: 1;
+        justify-content: flex-end;
         gap: 0.5rem;
     }
 
     .pdf-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+    }
+
+    .pdf-btn-text {
+        display: none;
+    }
+
+    .pdf-btn i {
+        font-size: 1rem;
+    }
+
+    .pdf-viewer-wrapper {
+        flex: 1;
+        min-height: 0;
+    }
+
+    .pdf-viewer-wrapper object {
         width: 100%;
-        justify-content: center;
+        height: 100%;
     }
 }
 
