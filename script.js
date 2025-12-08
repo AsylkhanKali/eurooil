@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Начинаем проверку с первой страницы
         checkPage(1);
-    }
+}
 
     // Load passport page
     function loadPassportPage(page) {
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             openPassportModal('ai92');
         });
-    }
+}
 
     // Navigation buttons
     if (prevPageBtn) {
@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (e.key === 'ArrowRight' && currentPage < totalPages) {
                 loadPassportPage(currentPage + 1);
-            }
+        }
         }
     });
 
@@ -330,8 +330,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize tooltips for service tags
     document.querySelectorAll('.service-tag').forEach(tag => {
         tag.title = 'Доступно на этой станции';
-    });
-
+        });
+        
     console.log('Сайт EuroOil успешно загружен!');
 });
  

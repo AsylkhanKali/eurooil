@@ -669,6 +669,81 @@ p {
     border: 1px solid var(--primary-blue);
 }
 
+/* Depot Section */
+.depot {
+    padding: 6rem 0;
+    background-color: var(--gray-100);
+}
+
+.depot-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.depot-description {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.depot-description p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.depot-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.depot-image-card {
+    background-color: var(--white);
+    border-radius: 0;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.depot-image-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.depot-image-card img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+/* Video Section */
+.video-section {
+    padding: 6rem 0;
+    background-color: var(--white);
+}
+
+.video-container {
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.video-player {
+    width: 100%;
+    height: auto;
+    display: block;
+    background-color: var(--dark-blue);
+}
+
 /* Contact Section */
 .contact {
     padding: 6rem 0;
@@ -1127,4 +1202,4 @@ p {
 /* Smooth scrolling for anchor links */
 html {
     scroll-padding-top: 70px;
-}
+} 
