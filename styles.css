@@ -729,12 +729,19 @@ p {
 }
 
 .video-container {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+.video-card {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border-radius: 0;
     overflow: hidden;
     border: 1px solid var(--border-color);
+    background-color: var(--white);
 }
 
 .video-player {
