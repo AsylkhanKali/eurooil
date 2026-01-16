@@ -89,10 +89,20 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         }
         .gallery-item img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            display: block;
+            width: 100% !important;
+            height: 300px !important;
+            object-fit: cover !important;
+            display: block !important;
+            min-height: 300px !important;
+            background-color: var(--gray-100);
+            max-width: 100%;
+        }
+        .gallery-item img[src=""],
+        .gallery-item img:not([src]) {
+            display: none;
+        }
+        .gallery-item {
+            min-height: 300px;
         }
         .gallery-item video {
             width: 100%;
@@ -324,6 +334,23 @@
     </footer>
 
     <script>
+        // Check images loading and debug
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.gallery-item img');
+            console.log('Found', images.length, 'images');
+            
+            images.forEach((img, index) => {
+                img.addEventListener('load', function() {
+                    console.log('Image', index + 1, 'loaded:', this.src);
+                });
+                img.addEventListener('error', function() {
+                    console.error('Image', index + 1, 'failed to load:', this.src);
+                    this.style.border = '2px solid red';
+                    this.alt = 'Ошибка загрузки: ' + this.src;
+                });
+            });
+        });
+        
         // Check for videos (hotel1.mp4, hotel2.mp4, etc.) and add them to gallery
         document.addEventListener('DOMContentLoaded', function() {
             const galleryGrid = document.querySelector('.gallery-grid');
