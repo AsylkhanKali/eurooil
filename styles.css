@@ -1059,6 +1059,12 @@ p {
     .hamburger {
         display: flex;
     }
+    
+    .station-card .btn-primary {
+        max-width: 90%;
+        padding: 12px 24px;
+        font-size: 0.95rem;
+    }
 
     .nav-menu {
         position: fixed;
