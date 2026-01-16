@@ -1064,6 +1064,7 @@ p {
         max-width: 90%;
         padding: 12px 24px;
         font-size: 0.95rem;
+        white-space: nowrap;
     }
 
     .nav-menu {
