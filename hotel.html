@@ -234,9 +234,63 @@
                 <h2>Фотогалерея</h2>
                 <p>Ознакомьтесь с нашими удобствами</p>
             </div>
-            <div class="gallery-grid" id="galleryGrid">
-                <!-- Images will be added dynamically -->
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/hotel1.jpeg" alt="Гостиница 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel2.jpeg" alt="Гостиница 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel3.jpeg" alt="Гостиница 3">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel4.jpeg" alt="Гостиница 4">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel5.jpeg" alt="Гостиница 5">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel6.jpeg" alt="Гостиница 6">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel7.jpeg" alt="Гостиница 7">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel8.jpeg" alt="Гостиница 8">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel9.jpeg" alt="Гостиница 9">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel10.jpeg" alt="Гостиница 10">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel11.jpeg" alt="Гостиница 11">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel12.jpeg" alt="Гостиница 12">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel13.jpeg" alt="Гостиница 13">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel14.jpeg" alt="Гостиница 14">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/hotel15.jpeg" alt="Гостиница 15">
+                </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Back Link Section -->
+    <section class="back-link-section">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i>
+                Обратно на главный сайт
+            </a>
         </div>
     </section>
 
@@ -269,47 +323,22 @@
         </div>
     </footer>
 
-    <!-- Back Link Section -->
-    <section class="back-link-section">
-        <div class="container">
-            <a href="index.html#stations" class="back-link">
-                <i class="fas fa-arrow-left"></i>
-                Назад к АЗС
-            </a>
-        </div>
-    </section>
-
     <script>
-        // Load hotel images dynamically
+        // Check for videos (hotel1.mp4, hotel2.mp4, etc.) and add them to gallery
         document.addEventListener('DOMContentLoaded', function() {
-            const galleryGrid = document.getElementById('galleryGrid');
+            const galleryGrid = document.querySelector('.gallery-grid');
             if (!galleryGrid) return;
             
-            const imageCount = 15; // hotel1.jpeg to hotel15.jpeg
-            
-            // Load images
-            for (let i = 1; i <= imageCount; i++) {
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-item';
-                
-                const img = document.createElement('img');
-                img.src = `images/hotel${i}.jpeg`;
-                img.alt = `Гостиница ${i}`;
-                img.loading = 'lazy';
-                img.onerror = function() {
-                    console.log(`Image hotel${i}.jpeg failed to load`);
-                };
-                
-                galleryItem.appendChild(img);
-                galleryGrid.appendChild(galleryItem);
-            }
-            
-            // Check for videos (hotel1.mp4, hotel2.mp4, etc.)
+            // Check for videos
             function checkAndLoadVideo(index) {
                 const video = document.createElement('video');
                 video.src = `images/hotel${index}.mp4`;
                 video.controls = true;
                 video.preload = 'metadata';
+                video.style.width = '100%';
+                video.style.height = '300px';
+                video.style.objectFit = 'cover';
+                video.style.display = 'block';
                 
                 video.addEventListener('error', () => {
                     // Video doesn't exist, stop checking
