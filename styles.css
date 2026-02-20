@@ -736,12 +736,6 @@ p {
     gap: 2rem;
 }
 
-@media (min-width: 768px) {
-    .video-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 .video-card {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border-radius: 0;
@@ -755,6 +749,41 @@ p {
     height: auto;
     display: block;
     background-color: var(--dark-blue);
+}
+
+/* Vertical videos (portrait) */
+.video-card-vertical {
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-self: center;
+}
+
+.video-player-vertical {
+    width: 100%;
+    height: auto;
+    max-height: 560px;
+    object-fit: contain;
+    object-position: center;
+    background-color: var(--dark-blue);
+}
+
+@media (min-width: 768px) {
+    .video-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .video-card-vertical {
+        max-width: 280px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .video-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .video-card-vertical {
+        max-width: 260px;
+    }
 }
 
 /* Contact Section */
