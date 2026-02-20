@@ -751,12 +751,13 @@ p {
     background-color: var(--dark-blue);
 }
 
-/* Vertical videos (portrait) */
+/* Vertical videos (portrait) - все 5 роликов add1–add5 */
 .video-card-vertical {
     max-width: 320px;
     margin-left: auto;
     margin-right: auto;
     justify-self: center;
+    min-height: 400px;
 }
 
 .video-player-vertical {
