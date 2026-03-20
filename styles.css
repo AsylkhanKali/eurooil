@@ -433,6 +433,23 @@ p {
     font-weight: 500;
 }
 
+.price-liter-value {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-top: -0.25rem;
+    margin-bottom: 0.25rem;
+    font-family: 'Georgia', serif;
+}
+
+.price-liter-unit {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
 .price-description {
     color: var(--text-light);
     font-size: 0.95rem;
@@ -751,20 +768,17 @@ p {
     background-color: var(--dark-blue);
 }
 
-/* Vertical videos (portrait) - все 5 роликов add1–add5 */
+/* Вертикальные видео — тот же размер блока, что и у остальных (16:9), видео заполняет кадр */
 .video-card-vertical {
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    justify-self: center;
-    min-height: 400px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
 }
 
 .video-player-vertical {
     width: 100%;
-    height: auto;
-    max-height: 560px;
-    object-fit: contain;
+    height: 100%;
+    display: block;
+    object-fit: cover;
     object-position: center;
     background-color: var(--dark-blue);
 }
@@ -773,17 +787,11 @@ p {
     .video-container {
         grid-template-columns: repeat(2, 1fr);
     }
-    .video-card-vertical {
-        max-width: 280px;
-    }
 }
 
 @media (min-width: 1024px) {
     .video-container {
         grid-template-columns: repeat(3, 1fr);
-    }
-    .video-card-vertical {
-        max-width: 260px;
     }
 }
 
