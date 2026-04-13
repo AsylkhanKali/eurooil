@@ -6,12 +6,12 @@
 }
 
 :root {
-    --primary: #0f2b46;
-    --primary-light: #1a3d5c;
-    --primary-dark: #091e33;
-    --accent: #e8a417;
-    --accent-hover: #d4920f;
-    --accent-light: #fdf3dc;
+    --primary: #032979;
+    --primary-light: #0a3a96;
+    --primary-dark: #021d56;
+    --accent: #F0C96E;
+    --accent-hover: #e0b555;
+    --accent-light: #fdf5e0;
     --text-dark: #1a1a2e;
     --text-body: #4a4a5a;
     --text-light: #6b7280;
@@ -263,10 +263,11 @@ p {
 }
 
 .logo-image {
-    height: 40px;
+    height: 48px;
     width: auto;
     border-radius: 6px;
     display: block;
+    box-shadow: 0 2px 8px rgba(3,41,121,0.25);
 }
 
 .nav-menu {
@@ -362,7 +363,7 @@ p {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(9,30,51,0.85) 0%, rgba(15,43,70,0.75) 50%, rgba(9,30,51,0.9) 100%);
+    background: linear-gradient(180deg, rgba(2,29,86,0.85) 0%, rgba(3,41,121,0.70) 50%, rgba(2,29,86,0.88) 100%);
 }
 
 .hero-content {
@@ -1925,7 +1926,7 @@ p {
 
 /* Number section gradient text */
 .number-value {
-    background: linear-gradient(135deg, var(--accent) 0%, #f5c842 100%);
+    background: linear-gradient(135deg, #F0C96E 0%, #f5d98a 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
