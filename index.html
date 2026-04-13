@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EuroOil - Нефтепродукты в Казахстане</title>
-    <meta name="description" content="EuroOil - Ведущий поставщик нефтепродуктов в Павлодаре, Казахстан. Оптовые и розничные продажи топлива, услуги доставки и автозаправочные станции.">
+    <title>EuroOil - Оптовые поставки нефтепродуктов в Казахстане | Дизель, Бензин, ГСМ</title>
+    <meta name="description" content="EuroOil — ведущий оптовый поставщик нефтепродуктов в Павлодаре и по всему Казахстану. Дизельное топливо, бензин АИ-92/АИ-95, доставка бензовозами. Собственная нефтебаза и сеть АЗС.">
+    <meta name="keywords" content="нефтепродукты оптом, дизельное топливо Казахстан, бензин оптом Павлодар, ГСМ оптом, доставка топлива, нефтебаза Павлодар, АЗС Казахстан, EuroOil">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
@@ -13,56 +14,88 @@
     <link rel="icon" type="image/png" sizes="512x512" href="images/android-chrome-512x512.png">
     <link rel="manifest" href="site.webmanifest">
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="EuroOil — Оптовые поставки нефтепродуктов в Казахстане">
+    <meta property="og:description" content="Дизельное топливо, бензин, ГСМ оптом. Собственный автопарк бензовозов, нефтебаза и сеть АЗС.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "EuroOil",
+        "description": "Оптовые поставки нефтепродуктов в Казахстане",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Павлодар",
+            "addressCountry": "KZ"
+        },
+        "telephone": "+77080075007",
+        "email": "too_eurooil@mail.ru"
+    }
+    </script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17432796822"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'AW-17432796822');
     </script>
 </head>
 <body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <div class="top-bar-contacts">
+                <a href="tel:+77080075007" class="top-bar-phone">
+                    <i class="fas fa-phone"></i> +7 708 007 5 007
+                </a>
+                <a href="mailto:too_eurooil@mail.ru" class="top-bar-email">
+                    <i class="fas fa-envelope"></i> too_eurooil@mail.ru
+                </a>
+            </div>
+            <div class="top-bar-actions">
+                <a href="https://wa.me/77080075007" target="_blank" class="top-bar-wa">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <button class="top-bar-callback" id="callbackBtn">
+                    <i class="fas fa-phone-volume"></i> Заказать звонок
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <a href="#home" class="nav-logo">
                 <img src="images/logo.png" alt="EuroOil Logo" class="logo-image">
-            </div>
+            </a>
             <ul class="nav-menu">
-                <li class="nav-item">
-                    <a href="#home" class="nav-link">Главная</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#services" class="nav-link">Услуги</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#prices" class="nav-link">Цены</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#numbers" class="nav-link">Цифры</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#fleet" class="nav-link">Автопарк</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#stations" class="nav-link">АЗС</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#depot" class="nav-link">Нефтебаза</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#video" class="nav-link">Видео</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#contact" class="nav-link">Контакты</a>
-                </li>
+                <li class="nav-item"><a href="#home" class="nav-link">Главная</a></li>
+                <li class="nav-item"><a href="#products" class="nav-link">Продукция</a></li>
+                <li class="nav-item"><a href="#prices" class="nav-link">Цены</a></li>
+                <li class="nav-item"><a href="#delivery" class="nav-link">Доставка</a></li>
+                <li class="nav-item"><a href="#services" class="nav-link">Услуги</a></li>
+                <li class="nav-item"><a href="#fleet" class="nav-link">Автопарк</a></li>
+                <li class="nav-item"><a href="#stations" class="nav-link">АЗС</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">О компании</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">Контакты</a></li>
             </ul>
-            <div class="hamburger">
+            <div class="nav-phone-btn">
+                <a href="tel:+77080075007" class="nav-call-btn">
+                    <i class="fas fa-phone"></i>
+                    <span>Позвонить</span>
+                </a>
+            </div>
+            <div class="hamburger" id="hamburger">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
@@ -77,45 +110,126 @@
         </div>
         <div class="hero-content">
             <div class="container">
+                <div class="hero-badge">Оптовые поставки по всему Казахстану</div>
                 <h1 class="hero-title">EuroOil</h1>
-                <p class="hero-subtitle">Ведущий поставщик нефтепродуктов в Казахстане</p>
-                <p class="hero-description">Качественные топливные решения для оптовых и розничных клиентов в Павлодаре и за его пределами</p>
+                <p class="hero-subtitle">Надежный поставщик нефтепродуктов</p>
+                <p class="hero-description">Дизельное топливо, бензин АИ-92 и АИ-95 оптом с доставкой собственным автопарком бензовозов. Собственная нефтебаза в Павлодаре и сеть АЗС.</p>
                 <div class="hero-buttons">
-                    <a href="#contact" class="btn btn-primary">Получить предложение</a>
-                    <a href="#services" class="btn btn-secondary">Наши услуги</a>
+                    <a href="#prices" class="btn btn-accent">
+                        <i class="fas fa-list-ul"></i> Узнать цены
+                    </a>
+                    <a href="https://wa.me/77080075007" target="_blank" class="btn btn-whatsapp-hero">
+                        <i class="fab fa-whatsapp"></i> Написать в WhatsApp
+                    </a>
+                    <a href="tel:+77080075007" class="btn btn-outline-white">
+                        <i class="fas fa-phone"></i> +7 708 007 5 007
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Trust Indicators -->
+    <section class="trust-bar">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <div class="trust-icon"><i class="fas fa-truck-fast"></i></div>
+                    <div class="trust-text">
+                        <strong>Доставка по всему КЗ</strong>
+                        <span>Автопарк из 9 бензовозов</span>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon"><i class="fas fa-warehouse"></i></div>
+                    <div class="trust-text">
+                        <strong>Всегда в наличии</strong>
+                        <span>Собственная нефтебаза</span>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon"><i class="fas fa-certificate"></i></div>
+                    <div class="trust-text">
+                        <strong>Гарантия качества</strong>
+                        <span>Паспорта качества на каждую партию</span>
+                    </div>
+                </div>
+                <div class="trust-item">
+                    <div class="trust-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="trust-text">
+                        <strong>Прямые контракты</strong>
+                        <span>Работаем с НПЗ напрямую</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
+    <!-- Product Catalog -->
+    <section id="products" class="products">
         <div class="container">
             <div class="section-header">
-                <h2>Наши услуги</h2>
-                <p>Комплексные топливные решения для всех ваших потребностей</p>
+                <span class="section-tag">Каталог продукции</span>
+                <h2>Нефтепродукты оптом</h2>
+                <p>Полный ассортимент топлива с гарантией качества и паспортами на каждую партию</p>
             </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
+            <div class="products-grid">
+                <div class="product-card product-card-featured">
+                    <div class="product-badge">Популярное</div>
+                    <div class="product-icon-wrap">
+                        <i class="fas fa-oil-can"></i>
+                    </div>
+                    <h3>Дизельное топливо</h3>
+                    <p class="product-desc">Летнее, межсезонное и зимнее дизельное топливо различных классов и марок.</p>
+                    <ul class="product-list">
+                        <li>Летнее ДТ (Сорт С)</li>
+                        <li>Межсезонное ДТ (Сорт Е, F)</li>
+                        <li>Зимнее ДТ (Класс 1, 2)</li>
+                        <li>Евро-4, Евро-5</li>
+                    </ul>
+                    <a href="#prices" class="btn btn-primary btn-sm">Узнать цену</a>
+                </div>
+                <div class="product-card">
+                    <div class="product-icon-wrap">
                         <i class="fas fa-gas-pump"></i>
                     </div>
-                    <h3>Продажа ГСМ оптом</h3>
-                    <p>Оптовые поставки топливно-смазочных материалов для предприятий, строительных компаний и промышленных клиентов с конкурентоспособными ценами и гарантированным качеством.</p>
+                    <h3>Бензин</h3>
+                    <p class="product-desc">Автомобильный бензин высокого качества для всех типов транспорта.</p>
+                    <ul class="product-list">
+                        <li>АИ-92 (К5)</li>
+                        <li>АИ-95 (К5)</li>
+                        <li>АИ-98 (К5)</li>
+                    </ul>
+                    <a href="#prices" class="btn btn-primary btn-sm">Узнать цену</a>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-truck"></i>
+                <div class="product-card">
+                    <div class="product-icon-wrap">
+                        <i class="fas fa-fire"></i>
                     </div>
-                    <h3>Логистика нефтепродуктов по всему Казахстану</h3>
-                    <p>Доставка нефтепродуктов собственным автопарком бензовозов и топливозаправщиков по всей территории Казахстана. Наша логистическая сеть покрывает все регионы страны, обеспечивая своевременную и безопасную транспортировку с использованием современного специализированного оборудования.</p>
+                    <h3>Мазут</h3>
+                    <p class="product-desc">Топочный мазут для промышленных предприятий и котельных.</p>
+                    <ul class="product-list">
+                        <li>Мазут М-100</li>
+                        <li>Для котельных и производств</li>
+                        <li>Оптовые партии</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary btn-sm">Запросить цену</a>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-store"></i>
+                <div class="product-card">
+                    <div class="product-icon-wrap">
+                        <i class="fas fa-road"></i>
                     </div>
-                    <h3>Автозаправочные станции</h3>
-                    <p>Сеть собственных АЗС в Павлодаре и Уржаре, предлагающих качественное топливо АИ-92, АИ-95 и дизельное топливо с дополнительными услугами для клиентов.</p>
+                    <h3>Битум</h3>
+                    <p class="product-desc">Дорожный и строительный битум для дорожного строительства и кровельных работ.</p>
+                    <ul class="product-list">
+                        <li>Дорожный битум</li>
+                        <li>Кровельный битум</li>
+                        <li>Модифицированный битум</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary btn-sm">Запросить цену</a>
                 </div>
             </div>
         </div>
@@ -125,43 +239,78 @@
     <section id="prices" class="prices">
         <div class="container">
             <div class="section-header">
-                <h2>Цены на топливо</h2>
-                <p>Оптовые цены на нефтепродукты с хранением</p>
+                <span class="section-tag">Актуальные цены</span>
+                <h2>Оптовые цены на топливо</h2>
+                <p>Цены обновляются регулярно. Для получения индивидуального предложения свяжитесь с нами.</p>
             </div>
             <div class="prices-grid">
-                <div class="price-card">
-                    <div class="price-icon">
-                        <i class="fas fa-oil-can"></i>
+                <div class="price-card price-card-highlight">
+                    <div class="price-header">
+                        <div class="price-icon"><i class="fas fa-oil-can"></i></div>
+                        <div>
+                            <h3>Дизельное топливо</h3>
+                            <span class="price-grade">Межсезонное класс Е-18</span>
+                        </div>
                     </div>
-                    <h3>Дизельное топливо</h3>
-                    <p class="price-subtitle">Межсезонное класс Е-18</p>
-                    <div class="price-value">339 000</div>
-                    <div class="price-unit">тенге за тонну (с завода)</div>
-                    <div class="price-liter-value">303</div>
-                    <div class="price-liter-unit">тенге за литр слитого на нефтебазе Павлодара</div>
-                    <p class="price-description">Цена для оптовых поставок с учетом хранения.</p>
+                    <div class="price-body">
+                        <div class="price-row">
+                            <div class="price-main">
+                                <span class="price-amount">339 000</span>
+                                <span class="price-currency">тенге/тонна</span>
+                            </div>
+                            <span class="price-note">с завода</span>
+                        </div>
+                        <div class="price-divider"></div>
+                        <div class="price-row">
+                            <div class="price-main">
+                                <span class="price-amount price-amount-secondary">303</span>
+                                <span class="price-currency">тенге/литр</span>
+                            </div>
+                            <span class="price-note">на нефтебазе Павлодара</span>
+                        </div>
+                    </div>
+                    <div class="price-footer">
+                        <a href="#" class="btn btn-primary btn-block" id="openPassportDieselBtn">
+                            <i class="fas fa-file-pdf"></i> Паспорт качества
+                        </a>
+                    </div>
                 </div>
                 <div class="price-card">
-                    <div class="price-icon">
-                        <i class="fas fa-gas-pump"></i>
+                    <div class="price-header">
+                        <div class="price-icon"><i class="fas fa-gas-pump"></i></div>
+                        <div>
+                            <h3>Бензин АИ-92</h3>
+                            <span class="price-grade">Марка АИ-92, K4</span>
+                        </div>
                     </div>
-                    <h3>Бензин АИ-92</h3>
-                    <p class="price-subtitle">Марка АИ-92</p>
-                    <div class="price-value">263 000</div>
-                    <div class="price-unit">тенге за тонну (с завода)</div>
-                    <div class="price-liter-value">207</div>
-                    <div class="price-liter-unit">тенге за литр слитого на нефтебазе Павлодара</div>
-                    <p class="price-description">Цена для оптовых поставок с учетом хранения.</p>
+                    <div class="price-body">
+                        <div class="price-row">
+                            <div class="price-main">
+                                <span class="price-amount">263 000</span>
+                                <span class="price-currency">тенге/тонна</span>
+                            </div>
+                            <span class="price-note">с завода</span>
+                        </div>
+                        <div class="price-divider"></div>
+                        <div class="price-row">
+                            <div class="price-main">
+                                <span class="price-amount price-amount-secondary">207</span>
+                                <span class="price-currency">тенге/литр</span>
+                            </div>
+                            <span class="price-note">на нефтебазе Павлодара</span>
+                        </div>
+                    </div>
+                    <div class="price-footer">
+                        <a href="#" class="btn btn-primary btn-block" id="openPassportAi92Btn">
+                            <i class="fas fa-file-pdf"></i> Паспорт качества
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="quality-passport-links">
-                <a href="#" class="btn btn-primary" id="openPassportDieselBtn">
-                    <i class="fas fa-file-pdf"></i>
-                    Посмотреть паспорт качества (Дизельное топливо)
-                </a>
-                <a href="#" class="btn btn-primary" id="openPassportAi92Btn">
-                    <i class="fas fa-file-pdf"></i>
-                    Посмотреть паспорт качества (Бензин АИ-92)
+            <div class="prices-cta">
+                <p>Нужен полный прайс-лист или индивидуальное предложение на крупный объём?</p>
+                <a href="https://wa.me/77080075007?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D1%83%D0%B7%D0%BD%D0%B0%D1%82%D1%8C%20%D0%B0%D0%BA%D1%82%D1%83%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D1%86%D0%B5%D0%BD%D1%8B" target="_blank" class="btn btn-accent">
+                    <i class="fab fa-whatsapp"></i> Запросить прайс-лист
                 </a>
             </div>
         </div>
@@ -170,38 +319,108 @@
     <!-- Company Numbers Section -->
     <section id="numbers" class="numbers">
         <div class="container">
-            <div class="section-header">
-                <h2>Компания в цифрах</h2>
-                <p>Нам доверяют клиенты по всему Казахстану</p>
-            </div>
             <div class="numbers-grid">
                 <div class="number-card">
-                    <div class="number-icon">
-                        <i class="fas fa-gas-pump"></i>
-                    </div>
                     <div class="number-value" data-target="4">0</div>
-                    <div class="number-label">Автозаправочные станции</div>
+                    <div class="number-label">АЗС по Казахстану</div>
                 </div>
                 <div class="number-card">
-                    <div class="number-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="number-value" data-target="7">0</div>
-                    <div class="number-label">Бензовозов</div>
+                    <div class="number-value" data-target="9">0</div>
+                    <div class="number-label">Бензовозов и топливозаправщиков</div>
                 </div>
                 <div class="number-card">
-                    <div class="number-icon">
-                        <i class="fas fa-oil-can"></i>
-                    </div>
-                    <div class="number-value" data-target="2">0</div>
-                    <div class="number-label">Топливозаправщиков</div>
-                </div>
-                <div class="number-card">
-                    <div class="number-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
                     <div class="number-value" data-target="10634">0</div>
                     <div class="number-label">Довольных клиентов</div>
+                </div>
+                <div class="number-card">
+                    <div class="number-value" data-target="3" data-suffix="+">0</div>
+                    <div class="number-label">Года на рынке</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Delivery Section -->
+    <section id="delivery" class="delivery">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Логистика</span>
+                <h2>Доставка и оплата</h2>
+                <p>Оперативная доставка нефтепродуктов собственным автопарком по всему Казахстану</p>
+            </div>
+            <div class="delivery-grid">
+                <div class="delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Доставка бензовозами</h3>
+                    <p>Собственный автопарк из 7 бензовозов и 2 топливозаправщиков. Объём доставки от 5 до 40 тонн за один рейс.</p>
+                </div>
+                <div class="delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>География доставки</h3>
+                    <p>Доставляем нефтепродукты по всей территории Казахстана: Павлодар, Астана, Алматы, Караганда, и другие регионы.</p>
+                </div>
+                <div class="delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Сроки доставки</h3>
+                    <p>Доставка в пределах Павлодарской области в течение 24 часов. Межрегиональные доставки — от 2 до 5 дней.</p>
+                </div>
+                <div class="delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <h3>Оплата</h3>
+                    <p>Безналичный расчёт для юридических лиц. Предоплата или оплата по факту. Полный пакет документов: счёт-фактура, паспорт качества, ТТН.</p>
+                </div>
+                <div class="delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Безопасность</h3>
+                    <p>Все транспортные средства оснащены современными системами безопасности и GPS-мониторинга. Лицензированные перевозки.</p>
+                </div>
+                <div class="delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+                    <h3>Выгодные условия</h3>
+                    <p>Скидки при крупных объёмах. Долгосрочные контракты с фиксированными условиями. Индивидуальный подход к каждому клиенту.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Что мы предлагаем</span>
+                <h2>Наши услуги</h2>
+                <p>Комплексные решения в сфере нефтепродуктов для бизнеса</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card service-card-large">
+                    <div class="service-icon"><i class="fas fa-gas-pump"></i></div>
+                    <h3>Оптовая продажа ГСМ</h3>
+                    <p>Поставки дизельного топлива, бензина АИ-92 и АИ-95 оптовыми партиями для АЗС, строительных компаний, промышленных предприятий и сельхозпроизводителей. Прямые контракты с НПЗ обеспечивают конкурентные цены.</p>
+                </div>
+                <div class="service-card service-card-large">
+                    <div class="service-icon"><i class="fas fa-truck-moving"></i></div>
+                    <h3>Логистика нефтепродуктов</h3>
+                    <p>Доставка нефтепродуктов собственным автопарком бензовозов и топливозаправщиков по всему Казахстану. Современное оборудование, GPS-мониторинг, лицензированные перевозки опасных грузов.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-store"></i></div>
+                    <h3>Сеть АЗС</h3>
+                    <p>4 автозаправочные станции в Павлодаре и Урджаре с полным ассортиментом топлива и дополнительными услугами для клиентов.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-warehouse"></i></div>
+                    <h3>Хранение нефтепродуктов</h3>
+                    <p>Собственная нефтебаза в Павлодаре для приёма, хранения и отпуска нефтепродуктов. Современная инфраструктура и контроль качества.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-fill-drip"></i></div>
+                    <h3>Заправка техники</h3>
+                    <p>Выездная заправка строительной и сельскохозяйственной техники топливозаправщиками непосредственно на объектах заказчика.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-file-contract"></i></div>
+                    <h3>Долгосрочные контракты</h3>
+                    <p>Индивидуальные контракты с фиксированными условиями поставки и ценообразования. Гибкие графики и объёмы поставок.</p>
                 </div>
             </div>
         </div>
@@ -211,89 +430,96 @@
     <section id="fleet" class="fleet">
         <div class="container">
             <div class="section-header">
+                <span class="section-tag">Автопарк</span>
                 <h2>Наш автопарк</h2>
-                <p>Современные и надежные транспортные средства для безопасной доставки топлива</p>
+                <p>Современные бензовозы и топливозаправщики для безопасной доставки нефтепродуктов</p>
             </div>
             <div class="fleet-grid">
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car1.jpeg" alt="Бензовоз 1">
+                        <img src="images/car1.jpeg" alt="Бензовоз EuroOil — 39 693 литров" loading="lazy">
+                        <div class="fleet-capacity">39 693 л</div>
                     </div>
                     <div class="fleet-content">
-                        <h3>Бензовоз 1</h3>
-                        <p>Современный бензовоз с емкостью 39,693 литров для эффективной оптовой доставки</p>
+                        <h3>Бензовоз</h3>
+                        <p>Современный бензовоз ёмкостью 39 693 литров для оптовых поставок</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car2.jpeg" alt="Бензовоз 2">
+                        <img src="images/car2.jpeg" alt="Бензовоз EuroOil — 39 568 литров" loading="lazy">
+                        <div class="fleet-capacity">39 568 л</div>
                     </div>
                     <div class="fleet-content">
-                        <h3>Бензовоз 2</h3>
-                        <p>Специализированный бензовоз на 39,568 литров, оснащенный современными системами безопасности</p>
+                        <h3>Бензовоз</h3>
+                        <p>Бензовоз на 39 568 литров с системами безопасности</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car3.jpeg" alt="Бензовоз 3">
+                        <img src="images/car3.jpeg" alt="Бензовоз EuroOil — 40 333 литра" loading="lazy">
+                        <div class="fleet-capacity">40 333 л</div>
                     </div>
                     <div class="fleet-content">
-                        <h3>Бензовоз 3</h3>
-                        <p>Высокопроизводительный бензовоз на 40,333 литров для крупномасштабных промышленных поставок</p>
+                        <h3>Бензовоз</h3>
+                        <p>Высокопроизводительный бензовоз на 40 333 литра для крупных поставок</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car4.jpeg" alt="Бензовоз 4">
+                        <img src="images/car4.jpeg" alt="Бензовоз EuroOil — многокамерный" loading="lazy">
                     </div>
                     <div class="fleet-content">
-                        <h3>Бензовоз 4</h3>
+                        <h3>Бензовоз</h3>
                         <p>Универсальный бензовоз с многокамерной конструкцией</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car5.jpeg" alt="Бензовоз 5">
+                        <img src="images/car5.jpeg" alt="Бензовоз EuroOil — маршрутный" loading="lazy">
                     </div>
                     <div class="fleet-content">
-                        <h3>Бензовоз 5</h3>
+                        <h3>Бензовоз</h3>
                         <p>Надежный бензовоз для регулярных маршрутных доставок</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car8.jpeg" alt="Бензовоз 6">
+                        <img src="images/car8.jpeg" alt="Бензовоз MAN EuroOil" loading="lazy">
                     </div>
                     <div class="fleet-content">
-                        <h3>Бензовоз 6</h3>
-                        <p>Современный белый бензовоз MAN с цилиндрической цистерной, оснащенный системами безопасности и световой сигнализацией. Идеально подходит для ночных перевозок и работы на автозаправочных станциях</p>
+                        <h3>Бензовоз MAN</h3>
+                        <p>Бензовоз MAN с цилиндрической цистерной и световой сигнализацией</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car9.png" alt="Бензовоз 7">
+                        <img src="images/car9.png" alt="Бензовоз EuroOil — 40 200 литров" loading="lazy">
+                        <div class="fleet-capacity">40 200 л</div>
                     </div>
                     <div class="fleet-content">
-                        <h3>Бензовоз 7</h3>
-                        <p>Мощный бензовоз с емкостью 40,200 литров для крупномасштабных поставок топлива</p>
+                        <h3>Бензовоз</h3>
+                        <p>Мощный бензовоз ёмкостью 40 200 литров для крупных поставок</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car6.jpeg" alt="Топливозаправщик 1">
+                        <img src="images/car6.jpeg" alt="Топливозаправщик EuroOil — 4900 литров" loading="lazy">
+                        <div class="fleet-capacity">4 900 л</div>
                     </div>
                     <div class="fleet-content">
-                        <h3>Топливозаправщик 1</h3>
-                        <p>Тяжелый топливозаправщик на 4900 литров для транспортировки больших объёмов</p>
+                        <h3>Топливозаправщик</h3>
+                        <p>Топливозаправщик на 4 900 литров для выездной заправки техники</p>
                     </div>
                 </div>
                 <div class="fleet-card">
                     <div class="fleet-image">
-                        <img src="images/car7.jpeg" alt="Топливозаправщик 2">
+                        <img src="images/car7.jpeg" alt="Топливозаправщик EuroOil — 5300 литров" loading="lazy">
+                        <div class="fleet-capacity">5 300 л</div>
                     </div>
                     <div class="fleet-content">
-                        <h3>Топливозаправщик 2</h3>
-                        <p>Специализированный топливозаправщик с объёмом 5300 литров с современными системами мониторинга</p>
+                        <h3>Топливозаправщик</h3>
+                        <p>Топливозаправщик на 5 300 литров с системами мониторинга</p>
                     </div>
                 </div>
             </div>
@@ -304,37 +530,38 @@
     <section id="stations" class="stations">
         <div class="container">
             <div class="section-header">
-                <h2>Наши автозаправочные станции (АЗС)</h2>
-                <p>Удобные локации по всему Казахстану</p>
+                <span class="section-tag">Сеть АЗС</span>
+                <h2>Автозаправочные станции</h2>
+                <p>Удобные локации в Павлодаре и Урджаре</p>
             </div>
             <div class="stations-grid">
                 <div class="station-card">
                     <div class="station-image">
-                        <img src="images/AZS1.jpeg" alt="АЗС Павлодар Спутник">
+                        <img src="images/AZS1.jpeg" alt="АЗС EuroOil Павлодар — Спутник" loading="lazy">
                     </div>
                     <div class="station-content">
                         <h3>АЗС Павлодар 1</h3>
-                        <p class="station-location">Улица Железнодорожная, 1/1, станция Спутник</p>
-                        <p class="station-description">Круглосуточная автозаправочная станция, предлагающая бензин АИ-92, АИ-95 и дизельное топливо с удобными способами оплаты. На территории АЗС расположена гостиница с хамамом для комфортного отдыха.</p>
+                        <p class="station-location"><i class="fas fa-map-marker-alt"></i> ул. Железнодорожная, 1/1, ст. Спутник</p>
+                        <p class="station-description">Круглосуточная АЗС с бензином АИ-92, АИ-95 и дизельным топливом. На территории — гостиница с хамамом.</p>
                         <div class="station-services">
                             <span class="service-tag">АИ-92</span>
                             <span class="service-tag">АИ-95</span>
                             <span class="service-tag">Дизель</span>
+                            <span class="service-tag tag-special">24/7</span>
                         </div>
-                        <a href="hotel.html" class="btn btn-primary" style="margin-top: 1.5rem; display: inline-block;">
-                            <i class="fas fa-hotel"></i>
-                            Гостиница с хамамом
+                        <a href="hotel.html" class="btn btn-primary btn-sm" style="margin-top: 1rem;">
+                            <i class="fas fa-hotel"></i> Гостиница с хамамом
                         </a>
                     </div>
                 </div>
                 <div class="station-card">
                     <div class="station-image">
-                        <img src="images/AZS2.jpeg" alt="АЗС Павлодар Астра">
+                        <img src="images/AZS2.jpeg" alt="АЗС EuroOil Павлодар — промзона" loading="lazy">
                     </div>
                     <div class="station-content">
                         <h3>АЗС Павлодар 2</h3>
-                        <p class="station-location">Центральная промышленная зона, 5</p>
-                        <p class="station-description">Современная автозаправочная станция с дополнительными услугами, включая автомойку и магазин.</p>
+                        <p class="station-location"><i class="fas fa-map-marker-alt"></i> Центральная промышленная зона, 5</p>
+                        <p class="station-description">Современная АЗС с дополнительными услугами, включая автомойку и магазин.</p>
                         <div class="station-services">
                             <span class="service-tag">АИ-92</span>
                             <span class="service-tag">АИ-95</span>
@@ -344,12 +571,12 @@
                 </div>
                 <div class="station-card">
                     <div class="station-image">
-                        <img src="images/AZS3.jpeg" alt="АЗС Павлодар Nur-Oil">
+                        <img src="images/AZS3.jpeg" alt="АЗС EuroOil Павлодар — Мичурино" loading="lazy">
                     </div>
                     <div class="station-content">
                         <h3>АЗС Павлодар 3</h3>
-                        <p class="station-location">За старым постом ГАИ, около села Мичурино, по Омской трассе</p>
-                        <p class="station-description">Стратегическое расположение, обслуживающее как местных жителей, так и проходящий коммерческий транспорт.</p>
+                        <p class="station-location"><i class="fas fa-map-marker-alt"></i> За старым постом ГАИ, около с. Мичурино, Омская трасса</p>
+                        <p class="station-description">Стратегическое расположение для местных жителей и коммерческого транспорта.</p>
                         <div class="station-services">
                             <span class="service-tag">АИ-92</span>
                             <span class="service-tag">АИ-95</span>
@@ -359,12 +586,12 @@
                 </div>
                 <div class="station-card">
                     <div class="station-image">
-                        <img src="images/AZS4.jpeg" alt="АЗС Урджар">
+                        <img src="images/AZS4.jpeg" alt="АЗС EuroOil Урджар" loading="lazy">
                     </div>
                     <div class="station-content">
                         <h3>АЗС Урджар</h3>
-                        <p class="station-location">Село Урджар</p>
-                        <p class="station-description">Надежная автозаправочная станция, обслуживающая регион Урджар качественными топливными продуктами и отличным сервисом.</p>
+                        <p class="station-location"><i class="fas fa-map-marker-alt"></i> Село Урджар</p>
+                        <p class="station-description">Надёжная АЗС, обслуживающая регион Урджар качественными нефтепродуктами.</p>
                         <div class="station-services">
                             <span class="service-tag">АИ-92</span>
                             <span class="service-tag">АИ-95</span>
@@ -380,22 +607,93 @@
     <section id="depot" class="depot">
         <div class="container">
             <div class="section-header">
+                <span class="section-tag">Инфраструктура</span>
                 <h2>Нефтебаза в Павлодаре</h2>
-                <p>Современная инфраструктура для хранения и распределения нефтепродуктов</p>
+                <p>Современная инфраструктура для приёма, хранения и отпуска нефтепродуктов</p>
             </div>
-            <div class="depot-content">
-                <div class="depot-images">
-                    <div class="depot-image-card">
-                        <img src="images/nfb1.jpeg" alt="Нефтебаза Павлодар 1">
+            <div class="depot-images">
+                <div class="depot-image-card">
+                    <img src="images/nfb1.jpeg" alt="Нефтебаза EuroOil Павлодар — резервуары" loading="lazy">
+                </div>
+                <div class="depot-image-card">
+                    <img src="images/nfb2.jpeg" alt="Нефтебаза EuroOil Павлодар — территория" loading="lazy">
+                </div>
+                <div class="depot-image-card">
+                    <img src="images/WhatsApp%20Image%202026-03-18%20at%2015.05.50.jpeg" alt="Нефтебаза EuroOil — хранилище" loading="lazy">
+                </div>
+                <div class="depot-image-card">
+                    <img src="images/WhatsApp%20Image%202026-03-18%20at%2015.05.50%20%281%29.jpeg" alt="Нефтебаза EuroOil — оборудование" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About / Company Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">О компании</span>
+                <h2>Почему выбирают EuroOil</h2>
+                <p>Надёжный партнёр в сфере нефтепродуктов</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p><strong>EuroOil</strong> — это ведущий поставщик нефтепродуктов в Казахстане с собственной инфраструктурой полного цикла: нефтебаза, автопарк бензовозов и сеть автозаправочных станций.</p>
+                    <p>Мы работаем напрямую с нефтеперерабатывающими заводами, что позволяет предлагать нашим клиентам конкурентные цены и гарантированное качество продукции. Каждая партия топлива сопровождается паспортом качества.</p>
+                    <div class="about-features">
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Прямые контракты с НПЗ</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Собственная нефтебаза в Павлодаре</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Автопарк из 9 единиц спецтехники</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>4 автозаправочные станции</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Доставка по всему Казахстану</span>
+                        </div>
+                        <div class="about-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Паспорта качества на каждую партию</span>
+                        </div>
                     </div>
-                    <div class="depot-image-card">
-                        <img src="images/nfb2.jpeg" alt="Нефтебаза Павлодар 2">
-                    </div>
-                    <div class="depot-image-card">
-                        <img src="images/WhatsApp%20Image%202026-03-18%20at%2015.05.50.jpeg" alt="Нефтебаза Павлодар (фото 1)">
-                    </div>
-                    <div class="depot-image-card">
-                        <img src="images/WhatsApp%20Image%202026-03-18%20at%2015.05.50%20%281%29.jpeg" alt="Нефтебаза Павлодар (фото 2)">
+                </div>
+                <div class="about-clients">
+                    <h3>Наши клиенты</h3>
+                    <div class="client-segments">
+                        <div class="client-segment">
+                            <i class="fas fa-gas-pump"></i>
+                            <span>Автозаправочные станции</span>
+                        </div>
+                        <div class="client-segment">
+                            <i class="fas fa-truck"></i>
+                            <span>Транспортные компании</span>
+                        </div>
+                        <div class="client-segment">
+                            <i class="fas fa-hard-hat"></i>
+                            <span>Строительные организации</span>
+                        </div>
+                        <div class="client-segment">
+                            <i class="fas fa-industry"></i>
+                            <span>Промышленные предприятия</span>
+                        </div>
+                        <div class="client-segment">
+                            <i class="fas fa-tractor"></i>
+                            <span>Сельхозпроизводители</span>
+                        </div>
+                        <div class="client-segment">
+                            <i class="fas fa-landmark"></i>
+                            <span>Государственные организации</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -406,88 +704,138 @@
     <section id="video" class="video-section">
         <div class="container">
             <div class="section-header">
-                <h2>О нашей компании</h2>
-                <p>Узнайте больше о EuroOil и наших услугах</p>
+                <span class="section-tag">Медиа</span>
+                <h2>Видео о компании</h2>
+                <p>Узнайте больше о работе EuroOil</p>
             </div>
             <div class="video-container">
                 <div class="video-card">
-                    <video controls class="video-player">
+                    <video controls class="video-player" preload="metadata">
                         <source src="images/Video1.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card">
                     <video controls class="video-player" preload="metadata">
                         <source src="images/Video2.mp4?v=2" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card">
                     <video controls class="video-player" preload="metadata">
                         <source src="images/man.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card">
                     <video controls class="video-player" preload="metadata">
                         <source src="images/roma.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card">
                     <video controls class="video-player" preload="metadata">
                         <source src="images/w1.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card">
                     <video controls class="video-player" preload="metadata">
                         <source src="images/w2.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card">
                     <video controls class="video-player" preload="metadata">
                         <source src="images/WhatsApp%20Video%202026-03-18%20at%2015.05.50.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card">
                     <video controls class="video-player" preload="metadata">
                         <source src="images/WhatsApp%20Video%202026-03-18%20at%2015.05.50%20%281%29.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
-                <!-- 5 вертикальных видео add1–add5 -->
+                <div class="video-card">
+                    <video controls class="video-player" preload="metadata">
+                        <source src="images/WhatsApp%20Video%202026-04-07%20at%2011.11.58.mp4" type="video/mp4">
+                    </video>
+                </div>
                 <div class="video-card video-card-vertical">
                     <video controls class="video-player video-player-vertical" preload="metadata">
                         <source src="images/add1.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card video-card-vertical">
                     <video controls class="video-player video-player-vertical" preload="metadata">
                         <source src="images/add2.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card video-card-vertical">
                     <video controls class="video-player video-player-vertical" preload="metadata">
                         <source src="images/add3.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card video-card-vertical">
                     <video controls class="video-player video-player-vertical" preload="metadata">
                         <source src="images/add4.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
                 </div>
                 <div class="video-card video-card-vertical">
                     <video controls class="video-player video-player-vertical" preload="metadata">
                         <source src="images/add5.mp4" type="video/mp4">
-                        Ваш браузер не поддерживает воспроизведение видео.
                     </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Вопросы</span>
+                <h2>Часто задаваемые вопросы</h2>
+                <p>Ответы на популярные вопросы наших клиентов</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Какой минимальный объём заказа?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Минимальный объём оптового заказа зависит от типа продукции и способа доставки. Для доставки бензовозом — от 5 000 литров. Для самовывоза с нефтебазы — от 1 000 литров. Свяжитесь с нами для уточнения условий.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Как осуществляется доставка?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Доставка осуществляется собственным автопарком бензовозов объёмом от 5 до 40 тонн. Доставляем по всему Казахстану. В пределах Павлодарской области — доставка в течение 24 часов. GPS-мониторинг каждого рейса.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Какие документы предоставляются?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>На каждую партию топлива мы предоставляем полный пакет документов: паспорт качества, счёт-фактуру, товарно-транспортную накладную. Все документы соответствуют требованиям законодательства РК.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Какие способы оплаты вы принимаете?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Для юридических лиц — безналичный расчёт с предоплатой или оплатой по факту получения (для постоянных клиентов). Для ИП — безналичный расчёт или наличные. Возможна работа по долгосрочному контракту с фиксированными условиями.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Как гарантируется качество топлива?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Мы работаем напрямую с нефтеперерабатывающими заводами. Каждая партия топлива проходит лабораторный контроль и сопровождается паспортом качества. Топливо соответствует стандартам ГОСТ и требованиям Евро-4/5.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -497,66 +845,80 @@
     <section id="contact" class="contact">
         <div class="container">
             <div class="section-header">
-                <h2>Контакты и связь</h2>
-                <p>Готовы обслужить ваши топливные потребности</p>
+                <span class="section-tag">Контакты</span>
+                <h2>Свяжитесь с нами</h2>
+                <p>Ответим на все вопросы и подготовим индивидуальное предложение</p>
             </div>
             <div class="contact-content">
                 <div class="contact-info">
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-map-marker-alt"></i>
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div class="contact-details">
+                            <h4>Отдел продаж</h4>
+                            <a href="tel:+77080075007" class="contact-link">+7 708 007 5 007</a>
                         </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <a href="mailto:too_eurooil@mail.ru" class="contact-link">too_eurooil@mail.ru</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                         <div class="contact-details">
                             <h4>Адрес</h4>
                             <p>Павлодар, Казахстан</p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-phone"></i>
-                        </div>
+                        <div class="contact-icon"><i class="fas fa-clock"></i></div>
                         <div class="contact-details">
-                            <h4>Телефон</h4>
-                            <p>+7 708 007 5 007</p>
+                            <h4>Режим работы</h4>
+                            <p>Пн — Сб: 08:00 — 18:00</p>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Email</h4>
-                            <p>too_eurooil@mail.ru</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <div class="contact-details">
-                            <h4>Instagram</h4>
-                            <p>@eurooil._.a</p>
-                        </div>
+                    <div class="contact-socials">
+                        <a href="https://wa.me/77080075007" target="_blank" class="btn btn-whatsapp btn-block">
+                            <i class="fab fa-whatsapp"></i> WhatsApp: +7 708 007 5 007
+                        </a>
+                        <a href="https://www.instagram.com/eurooil._.a/" target="_blank" class="btn btn-instagram btn-block">
+                            <i class="fab fa-instagram"></i> @eurooil._.a
+                        </a>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <h3>Свяжитесь с нами</h3>
-                    <div class="social-contact">
-                        <div class="whatsapp-contact">
-                            <p>Свяжитесь с нами в WhatsApp:</p>
-                            <a href="https://wa.me/77080075007" class="btn btn-whatsapp" target="_blank" style="white-space: nowrap;">
-                                <i class="fab fa-whatsapp"></i>
-                                WhatsApp +7&nbsp;708&nbsp;007&nbsp;5&nbsp;007
-                            </a>
+                <div class="contact-form-wrap">
+                    <h3>Оставить заявку</h3>
+                    <p class="form-subtitle">Заполните форму, и мы перезвоним вам в течение 30 минут</p>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <input type="text" id="formName" placeholder="Ваше имя *" required>
                         </div>
-                        <div class="instagram-contact">
-                            <p>Следите за нами в Instagram:</p>
-                            <a href="https://www.instagram.com/eurooil._.a/" class="btn btn-instagram" target="_blank">
-                                <i class="fab fa-instagram"></i>
-                                @eurooil._.a
-                            </a>
+                        <div class="form-group">
+                            <input type="tel" id="formPhone" placeholder="Телефон *" required>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <input type="text" id="formCompany" placeholder="Компания">
+                        </div>
+                        <div class="form-group">
+                            <select id="formProduct">
+                                <option value="">Выберите продукт</option>
+                                <option value="diesel">Дизельное топливо</option>
+                                <option value="ai92">Бензин АИ-92</option>
+                                <option value="ai95">Бензин АИ-95</option>
+                                <option value="mazut">Мазут</option>
+                                <option value="bitum">Битум</option>
+                                <option value="other">Другое</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="formMessage" placeholder="Объём, сроки и другие пожелания" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-accent btn-block">
+                            <i class="fas fa-paper-plane"></i> Отправить заявку
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -566,42 +928,82 @@
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h3>EuroOil</h3>
-                    <p>Ведущий поставщик нефтепродуктов в Казахстане, предоставляющий качественные топливные решения для оптовых и розничных клиентов.</p>
+                <div class="footer-section footer-about">
+                    <img src="images/logo.png" alt="EuroOil" class="footer-logo">
+                    <p>Ведущий поставщик нефтепродуктов в Казахстане. Собственная нефтебаза, автопарк бензовозов и сеть автозаправочных станций.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Быстрые ссылки</h4>
+                    <h4>Навигация</h4>
                     <ul>
                         <li><a href="#home">Главная</a></li>
-                        <li><a href="#services">Услуги</a></li>
+                        <li><a href="#products">Продукция</a></li>
                         <li><a href="#prices">Цены</a></li>
+                        <li><a href="#delivery">Доставка</a></li>
+                        <li><a href="#services">Услуги</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Компания</h4>
+                    <ul>
                         <li><a href="#fleet">Автопарк</a></li>
                         <li><a href="#stations">АЗС</a></li>
                         <li><a href="#depot">Нефтебаза</a></li>
-                        <li><a href="#video">Видео</a></li>
+                        <li><a href="#about">О компании</a></li>
+                        <li><a href="#faq">Вопросы</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h4>Услуги</h4>
-                    <ul>
-                        <li>Продажа ГСМ оптом</li>
-                        <li>Логистика нефтепродуктов</li>
-                        <li>Автозаправочные станции</li>
-                    </ul>
-                </div>
-                                    <div class="footer-section">
-                        <h4>Контакты</h4>
-                        <p>Павлодар, Казахстан</p>
-                        <p>+77080155555</p>
-                        <p>too_eurooil@mail.ru</p>
+                    <h4>Контакты</h4>
+                    <div class="footer-contacts">
+                        <a href="tel:+77080075007"><i class="fas fa-phone"></i> +7 708 007 5 007</a>
+                        <a href="mailto:too_eurooil@mail.ru"><i class="fas fa-envelope"></i> too_eurooil@mail.ru</a>
+                        <span><i class="fas fa-map-marker-alt"></i> Павлодар, Казахстан</span>
                     </div>
+                </div>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 EuroOil. Все права защищены.</p>
             </div>
         </div>
     </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/77080075007" target="_blank" class="floating-whatsapp" aria-label="Написать в WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+        <span class="floating-whatsapp-tooltip">Написать нам</span>
+    </a>
+
+    <!-- Mobile Bottom Bar -->
+    <div class="mobile-bottom-bar">
+        <a href="tel:+77080075007" class="mobile-bar-btn mobile-bar-call">
+            <i class="fas fa-phone"></i>
+            <span>Позвонить</span>
+        </a>
+        <a href="https://wa.me/77080075007" target="_blank" class="mobile-bar-btn mobile-bar-wa">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </a>
+    </div>
+
+    <!-- Callback Modal -->
+    <div class="modal-overlay" id="callbackModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeCallbackModal"><i class="fas fa-times"></i></button>
+            <h3>Заказать обратный звонок</h3>
+            <p>Оставьте номер телефона и мы перезвоним вам в течение 15 минут</p>
+            <form id="callbackForm">
+                <div class="form-group">
+                    <input type="text" placeholder="Ваше имя" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="Номер телефона *" required>
+                </div>
+                <button type="submit" class="btn btn-accent btn-block">
+                    <i class="fas fa-phone-volume"></i> Перезвоните мне
+                </button>
+            </form>
+        </div>
+    </div>
 
     <!-- PDF Modal -->
     <div id="pdfModal" class="pdf-modal">
@@ -619,7 +1021,7 @@
             </div>
             <div class="pdf-viewer-wrapper">
                 <div class="passport-image-container">
-                    <img id="passportImage" src="" alt="Паспорт качества" class="passport-image" />
+                    <img id="passportImage" src="" alt="Паспорт качества" class="passport-image">
                 </div>
                 <div class="passport-controls">
                     <button class="passport-nav-btn" id="prevPageBtn" disabled>
@@ -638,4 +1040,4 @@
 
     <script src="script.js"></script>
 </body>
-</html> 
+</html>

@@ -1,7 +1,6 @@
-// All code wrapped in DOMContentLoaded to ensure DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile Navigation Toggle
-    const hamburger = document.querySelector('.hamburger');
+    // ========== MOBILE NAVIGATION ==========
+    const hamburger = document.getElementById('hamburger');
     const navMenu = document.querySelector('.nav-menu');
 
     if (hamburger && navMenu) {
@@ -11,83 +10,225 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
-        if (hamburger && navMenu) {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-        }
-    }));
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            if (hamburger && navMenu) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
             }
         });
     });
 
-    // Number Counter Animation
-    function animateCounter(element, target, duration = 1500) {
-        let start = 0;
-        const increment = target / (duration / 16);
-        
-        function updateCounter() {
-            start += increment;
-            if (start < target) {
-                element.textContent = Math.floor(start).toLocaleString('ru-RU');
-                requestAnimationFrame(updateCounter);
-            } else {
-                element.textContent = target.toLocaleString('ru-RU');
+    // ========== SMOOTH SCROLLING ==========
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href === '#') return;
+            e.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
+        });
+    });
+
+    // ========== NAVBAR SCROLL EFFECT ==========
+    const navbar = document.querySelector('.navbar');
+    let lastScroll = 0;
+
+    window.addEventListener('scroll', () => {
+        if (navbar) {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
         }
-        
-        updateCounter();
+    }, { passive: true });
+
+    // ========== ACTIVE NAV LINK ==========
+    function updateActiveNavLink() {
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        let current = '';
+
+        sections.forEach(section => {
+            const top = section.offsetTop - 120;
+            if (window.pageYOffset >= top) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
     }
 
-    // Intersection Observer for number counters
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px 0px -100px 0px'
-    };
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(updateActiveNavLink, 60);
+    }, { passive: true });
+
+    // ========== NUMBER COUNTER ANIMATION ==========
+    function animateCounter(element, target, suffix, duration) {
+        duration = duration || 1500;
+        suffix = suffix || '';
+        let start = 0;
+        const increment = target / (duration / 16);
+
+        function update() {
+            start += increment;
+            if (start < target) {
+                element.textContent = Math.floor(start).toLocaleString('ru-RU') + suffix;
+                requestAnimationFrame(update);
+            } else {
+                element.textContent = target.toLocaleString('ru-RU') + suffix;
+            }
+        }
+        update();
+    }
 
     const numberObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const numberElement = entry.target.querySelector('.number-value');
-                if (numberElement) {
-                const target = parseInt(numberElement.getAttribute('data-target'));
-                animateCounter(numberElement, target);
-                numberObserver.unobserve(entry.target);
+                const el = entry.target.querySelector('.number-value');
+                if (el) {
+                    const target = parseInt(el.getAttribute('data-target'));
+                    const suffix = el.getAttribute('data-suffix') || '';
+                    animateCounter(el, target, suffix);
+                    numberObserver.unobserve(entry.target);
                 }
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.5 });
 
-    // Observe all number cards
     document.querySelectorAll('.number-card').forEach(card => {
         numberObserver.observe(card);
     });
 
-    // Navbar background change on scroll
-    window.addEventListener('scroll', () => {
-        const navbar = document.querySelector('.navbar');
-        if (navbar) {
-            if (window.scrollY > 100) {
-                navbar.style.backgroundColor = 'rgba(10, 25, 41, 0.98)';
-            } else {
-                navbar.style.backgroundColor = 'rgba(10, 25, 41, 1)';
+    // ========== SCROLL ANIMATIONS ==========
+    const animObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                animObserver.unobserve(entry.target);
             }
-        }
+        });
+    }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+
+    const animElements = document.querySelectorAll(
+        '.product-card, .price-card, .delivery-card, .service-card, .fleet-card, .station-card, .depot-image-card, .faq-item'
+    );
+
+    // Add CSS for animation
+    const style = document.createElement('style');
+    style.textContent = `
+        .anim-ready { opacity: 0; transform: translateY(24px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .animate-in { opacity: 1 !important; transform: translateY(0) !important; }
+    `;
+    document.head.appendChild(style);
+
+    animElements.forEach((el, i) => {
+        el.classList.add('anim-ready');
+        el.style.transitionDelay = (i % 4) * 0.08 + 's';
+        animObserver.observe(el);
     });
 
-    // PDF Modal - Image viewer implementation
+    // ========== FAQ ACCORDION ==========
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const item = this.closest('.faq-item');
+            const answer = item.querySelector('.faq-answer');
+            const isActive = item.classList.contains('active');
+
+            // Close all other items
+            document.querySelectorAll('.faq-item.active').forEach(activeItem => {
+                if (activeItem !== item) {
+                    activeItem.classList.remove('active');
+                    activeItem.querySelector('.faq-answer').style.maxHeight = '0';
+                }
+            });
+
+            if (isActive) {
+                item.classList.remove('active');
+                answer.style.maxHeight = '0';
+            } else {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
+    });
+
+    // ========== CALLBACK MODAL ==========
+    const callbackBtn = document.getElementById('callbackBtn');
+    const callbackModal = document.getElementById('callbackModal');
+    const closeCallbackModal = document.getElementById('closeCallbackModal');
+
+    if (callbackBtn && callbackModal) {
+        callbackBtn.addEventListener('click', () => {
+            callbackModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    if (closeCallbackModal && callbackModal) {
+        closeCallbackModal.addEventListener('click', () => {
+            callbackModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        callbackModal.addEventListener('click', (e) => {
+            if (e.target === callbackModal) {
+                callbackModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // ========== FORM SUBMISSIONS ==========
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('formName').value;
+            const phone = document.getElementById('formPhone').value;
+            const company = document.getElementById('formCompany').value;
+            const product = document.getElementById('formProduct').value;
+            const message = document.getElementById('formMessage').value;
+
+            let waText = `Здравствуйте! Заявка с сайта EuroOil.\n`;
+            waText += `Имя: ${name}\n`;
+            waText += `Телефон: ${phone}\n`;
+            if (company) waText += `Компания: ${company}\n`;
+            if (product) waText += `Продукт: ${product}\n`;
+            if (message) waText += `Комментарий: ${message}\n`;
+
+            window.open(`https://wa.me/77080075007?text=${encodeURIComponent(waText)}`, '_blank');
+            contactForm.reset();
+        });
+    }
+
+    const callbackForm = document.getElementById('callbackForm');
+    if (callbackForm) {
+        callbackForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const inputs = callbackForm.querySelectorAll('input');
+            const name = inputs[0].value;
+            const phone = inputs[1].value;
+
+            let waText = `Заказ обратного звонка с сайта EuroOil.\nИмя: ${name}\nТелефон: ${phone}`;
+            window.open(`https://wa.me/77080075007?text=${encodeURIComponent(waText)}`, '_blank');
+
+            callbackForm.reset();
+            if (callbackModal) {
+                callbackModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // ========== PDF MODAL (PASSPORT VIEWER) ==========
     const pdfModal = document.getElementById('pdfModal');
     const openPassportDieselBtn = document.getElementById('openPassportDieselBtn');
     const openPassportAi92Btn = document.getElementById('openPassportAi92Btn');
@@ -100,12 +241,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const passportModalTitle = document.getElementById('passportModalTitle');
     const passportDownloadLink = document.getElementById('passportDownloadLink');
 
-    // Passport pages configuration
     let currentPage = 1;
     let totalPages = 5;
-    let currentPassportType = null; // 'diesel' or 'ai92'
+    let currentPassportType = null;
 
-    // Initialize passport pages count
     function initPassportPages(passportType) {
         let foundPages = 0;
         const maxPagesToCheck = 20;
@@ -113,87 +252,67 @@ document.addEventListener('DOMContentLoaded', function() {
         function checkPage(pageNum) {
             const pageNumStr = String(pageNum).padStart(4, '0');
             let filename;
-            
             if (passportType === 'diesel') {
                 filename = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
             } else if (passportType === 'ai92') {
                 filename = `images/passport2_pages/АИ-92-К4 ПАСПОРТ № 114.01 (1)_page-${pageNumStr}.jpg`;
-            } else {
-                return;
-            }
+            } else return;
 
             const img = new Image();
-
             img.onload = function() {
                 foundPages = pageNum;
                 totalPages = foundPages;
                 updatePageDisplay();
-                if (pageNum < maxPagesToCheck) {
-                    checkPage(pageNum + 1);
-                }
+                if (pageNum < maxPagesToCheck) checkPage(pageNum + 1);
             };
-
             img.onerror = function() {
-                // Больше страниц нет
                 if (foundPages > 0) {
                     totalPages = foundPages;
                     updatePageDisplay();
                 }
             };
-
             img.src = filename;
         }
-
-        // Начинаем проверку с первой страницы
         checkPage(1);
-}
+    }
 
-    // Load passport page
     function loadPassportPage(page) {
         if (page < 1 || page > totalPages) return;
         currentPage = page;
         if (passportImage) {
             const pageNumStr = String(page).padStart(4, '0');
             let filename;
-            
             if (currentPassportType === 'diesel') {
                 filename = `images/passport_pages/Паспорт качества ДТ-Е-К4_page-${pageNumStr}.jpg`;
             } else if (currentPassportType === 'ai92') {
                 filename = `images/passport2_pages/АИ-92-К4 ПАСПОРТ № 114.01 (1)_page-${pageNumStr}.jpg`;
             }
-            
-            if (filename) {
-                passportImage.src = filename;
-                passportImage.onerror = function() {
-                    console.log(`Страница ${page} не найдена`);
-                };
-            }
+            if (filename) passportImage.src = filename;
         }
         updatePageDisplay();
     }
-    
-    // Open passport modal with specific type
+
     function openPassportModal(passportType) {
         currentPassportType = passportType;
         currentPage = 1;
-        
+
         if (passportType === 'diesel') {
-            if (passportModalTitle) passportModalTitle.textContent = 'Паспорт качества на Дизельное топливо';
+            if (passportModalTitle) passportModalTitle.textContent = 'Паспорт качества — Дизельное топливо';
             if (passportDownloadLink) {
                 passportDownloadLink.href = 'images/Паспорт качества ДТ-Е-К4.pdf';
                 passportDownloadLink.download = 'Паспорт качества ДТ-Е-К4.pdf';
+                passportDownloadLink.style.display = '';
             }
-            totalPages = 5; // Устанавливаем начальное значение
+            totalPages = 5;
         } else if (passportType === 'ai92') {
-            if (passportModalTitle) passportModalTitle.textContent = 'Паспорт качества на Бензин АИ-92';
+            if (passportModalTitle) passportModalTitle.textContent = 'Паспорт качества — Бензин АИ-92';
             if (passportDownloadLink) {
-                // Если есть PDF файл для АИ-92, укажите его здесь
                 passportDownloadLink.href = '#';
-                passportDownloadLink.style.display = 'none'; // Скрываем кнопку скачивания если нет PDF
+                passportDownloadLink.style.display = 'none';
             }
-            totalPages = 6; // Устанавливаем начальное значение
+            totalPages = 6;
         }
-        
+
         if (pdfModal) {
             pdfModal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -202,7 +321,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Update page display
     function updatePageDisplay() {
         if (currentPageNum) currentPageNum.textContent = currentPage;
         if (totalPagesNum) totalPagesNum.textContent = totalPages;
@@ -210,7 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nextPageBtn) nextPageBtn.disabled = currentPage >= totalPages;
     }
 
-    // Open PDF modal for Diesel
     if (openPassportDieselBtn) {
         openPassportDieselBtn.addEventListener('click', function(e) {
             e.preventDefault();
@@ -218,20 +335,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Open PDF modal for AI-92
     if (openPassportAi92Btn) {
         openPassportAi92Btn.addEventListener('click', function(e) {
             e.preventDefault();
             openPassportModal('ai92');
         });
-}
+    }
 
-    // Navigation buttons
     if (prevPageBtn) {
         prevPageBtn.addEventListener('click', function() {
             if (currentPage > 1) {
                 loadPassportPage(currentPage - 1);
-                // Scroll to top of image
                 const container = document.querySelector('.passport-image-container');
                 if (container) container.scrollTop = 0;
             }
@@ -242,96 +356,40 @@ document.addEventListener('DOMContentLoaded', function() {
         nextPageBtn.addEventListener('click', function() {
             if (currentPage < totalPages) {
                 loadPassportPage(currentPage + 1);
-                // Scroll to top of image
                 const container = document.querySelector('.passport-image-container');
                 if (container) container.scrollTop = 0;
             }
         });
     }
 
-    // Close PDF modal
-    function closeModal() {
+    function closePdfModalFn() {
         if (pdfModal) {
             pdfModal.classList.remove('active');
             document.body.style.overflow = '';
         }
     }
 
-    if (closePdfModal) {
-        closePdfModal.addEventListener('click', closeModal);
-    }
-
-    // Close modal when clicking outside
+    if (closePdfModal) closePdfModal.addEventListener('click', closePdfModalFn);
     if (pdfModal) {
         pdfModal.addEventListener('click', function(e) {
-            if (e.target === pdfModal) {
-                closeModal();
-            }
+            if (e.target === pdfModal) closePdfModalFn();
         });
     }
 
-    // Close modal on Escape key
+    // Keyboard navigation
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && pdfModal && pdfModal.classList.contains('active')) {
-            closeModal();
-        }
-        // Arrow keys for navigation
-        if (pdfModal && pdfModal.classList.contains('active')) {
-            if (e.key === 'ArrowLeft' && currentPage > 1) {
-                loadPassportPage(currentPage - 1);
+        if (e.key === 'Escape') {
+            if (pdfModal && pdfModal.classList.contains('active')) closePdfModalFn();
+            if (callbackModal && callbackModal.classList.contains('active')) {
+                callbackModal.classList.remove('active');
+                document.body.style.overflow = '';
             }
-            if (e.key === 'ArrowRight' && currentPage < totalPages) {
-                loadPassportPage(currentPage + 1);
         }
+        if (pdfModal && pdfModal.classList.contains('active')) {
+            if (e.key === 'ArrowLeft' && currentPage > 1) loadPassportPage(currentPage - 1);
+            if (e.key === 'ArrowRight' && currentPage < totalPages) loadPassportPage(currentPage + 1);
         }
     });
 
-    // Initialize page display
     updatePageDisplay();
-
-    // Add active class to navigation links based on scroll position
-    function updateActiveNavLink() {
-        const sections = document.querySelectorAll('section[id]');
-        const navLinks = document.querySelectorAll('.nav-link');
-        
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.clientHeight;
-            if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
-                current = section.getAttribute('id');
-            }
-        });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    // Performance optimization: Debounce scroll events
-    function debounce(func, wait) {
-        let timeout;
-        return function executedFunction(...args) {
-            const later = () => {
-                clearTimeout(timeout);
-                func(...args);
-            };
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-        };
-    }
-
-    const debouncedScrollHandler = debounce(updateActiveNavLink, 50);
-    window.addEventListener('scroll', debouncedScrollHandler);
-
-    // Initialize tooltips for service tags
-    document.querySelectorAll('.service-tag').forEach(tag => {
-        tag.title = 'Доступно на этой станции';
-        });
-        
-    console.log('Сайт EuroOil успешно загружен!');
 });
- 
