@@ -129,6 +129,19 @@ p {
     border-color: var(--white);
 }
 
+/* Secondary button for light backgrounds */
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-outline:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+}
+
 .btn-whatsapp-hero {
     background: #25d366;
     color: var(--white);
