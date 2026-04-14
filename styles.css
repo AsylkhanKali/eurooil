@@ -2023,3 +2023,82 @@ section {
     .products-grid { grid-template-columns: repeat(2, 1fr); }
     .numbers-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ===== SECTION CTA BLOCK ===== */
+.section-cta {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.btn-outline-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border: 2px solid rgba(255,255,255,0.7);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.08);
+}
+.btn-outline-light:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: #fff;
+    color: #fff;
+}
+
+/* ===== FAQ CTA ===== */
+.faq-cta {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--accent-light);
+    border-radius: 12px;
+    border: 1px solid rgba(240,201,110,0.3);
+}
+.faq-cta p {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+}
+
+/* ===== CONTACT FORM IMPROVEMENTS ===== */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+@media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+}
+
+.form-note {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #888;
+    margin-top: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+}
+.form-note i {
+    color: #38a169;
+}
+
+.contact-form input[style*="border-color: rgb(229, 62, 62)"] {
+    animation: shake 0.3s ease;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}

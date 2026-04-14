@@ -186,26 +186,79 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // ========== PHONE FORMATTING ==========
+    function formatPhone(input) {
+        input.addEventListener('input', function() {
+            let val = this.value.replace(/\D/g, '');
+            if (val.startsWith('8')) val = '7' + val.slice(1);
+            if (!val.startsWith('7')) val = '7' + val;
+            val = val.slice(0, 11);
+            let formatted = '+7';
+            if (val.length > 1) formatted += ' (' + val.slice(1, 4);
+            if (val.length >= 4) formatted += ') ' + val.slice(4, 7);
+            if (val.length >= 7) formatted += '-' + val.slice(7, 9);
+            if (val.length >= 9) formatted += '-' + val.slice(9, 11);
+            this.value = formatted;
+        });
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && this.value === '+7') {
+                e.preventDefault();
+            }
+        });
+        input.addEventListener('focus', function() {
+            if (!this.value) this.value = '+7 ';
+        });
+    }
+
+    const phoneInputs = document.querySelectorAll('input[type="tel"]');
+    phoneInputs.forEach(formatPhone);
+
     // ========== FORM SUBMISSIONS ==========
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const name = document.getElementById('formName').value;
-            const phone = document.getElementById('formPhone').value;
-            const company = document.getElementById('formCompany').value;
+            const name    = document.getElementById('formName').value.trim();
+            const phone   = document.getElementById('formPhone').value.trim();
+            const company = document.getElementById('formCompany').value.trim();
             const product = document.getElementById('formProduct').value;
-            const message = document.getElementById('formMessage').value;
+            const volume  = document.getElementById('formVolume') ? document.getElementById('formVolume').value : '';
+            const address = document.getElementById('formAddress') ? document.getElementById('formAddress').value.trim() : '';
+            const message = document.getElementById('formMessage').value.trim();
 
-            let waText = `Здравствуйте! Заявка с сайта EuroOil.\n`;
-            waText += `Имя: ${name}\n`;
-            waText += `Телефон: ${phone}\n`;
-            if (company) waText += `Компания: ${company}\n`;
-            if (product) waText += `Продукт: ${product}\n`;
-            if (message) waText += `Комментарий: ${message}\n`;
+            if (!name || !phone || phone.replace(/\D/g,'').length < 11) {
+                const phoneEl = document.getElementById('formPhone');
+                phoneEl.style.borderColor = '#e53e3e';
+                phoneEl.focus();
+                return;
+            }
+
+            let waText = `🛢 Заявка с сайта EuroOil\n`;
+            waText += `━━━━━━━━━━━━━━━\n`;
+            waText += `👤 Имя: ${name}\n`;
+            waText += `📞 Телефон: ${phone}\n`;
+            if (company) waText += `🏢 Компания: ${company}\n`;
+            if (product) waText += `⛽ Продукт: ${product}\n`;
+            if (volume)  waText += `📦 Объём: ${volume}\n`;
+            if (address) waText += `📍 Адрес доставки: ${address}\n`;
+            if (message) waText += `💬 Комментарий: ${message}\n`;
+            waText += `━━━━━━━━━━━━━━━`;
 
             window.open(`https://wa.me/77080075007?text=${encodeURIComponent(waText)}`, '_blank');
-            contactForm.reset();
+
+            const btn = contactForm.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fas fa-check"></i> Заявка отправлена!';
+            btn.style.background = '#38a169';
+            setTimeout(() => {
+                contactForm.reset();
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку';
+                btn.style.background = '';
+            }, 3000);
+        });
+
+        // Remove red border on input
+        document.getElementById('formPhone').addEventListener('input', function() {
+            this.style.borderColor = '';
         });
     }
 
