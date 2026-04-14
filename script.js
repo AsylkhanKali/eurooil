@@ -314,12 +314,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const img = new Image();
             img.onload = function() {
                 foundPages = pageNum;
-                totalPages = foundPages;
-                updatePageDisplay();
+                // Do NOT update totalPages display mid-scan — wait until scanning is complete
                 if (pageNum < maxPagesToCheck) checkPage(pageNum + 1);
             };
             img.onerror = function() {
-                if (foundPages > 0) {
+                // Scanning complete — update total only if different from hardcoded value
+                if (foundPages > 0 && foundPages !== totalPages) {
                     totalPages = foundPages;
                     updatePageDisplay();
                 }
