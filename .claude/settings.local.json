@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git add:*)",
+      "Bash(git commit -m ':*)",
+      "Bash(git push:*)",
+      "Bash(git commit -m 'Добавлен логотип eurooil_logo_png.png в репозиторий:*)",
+      "Bash(ffmpeg -y -i \"WhatsApp Video 2026-04-13 at 11.51.00.mp4\" -ss 00:00:01 -frames:v 1 -q:v 3 \"thumbs/WhatsApp Video 2026-04-13 at 11.51.00.jpg\")",
+      "Bash(ffmpeg -y -i \"WhatsApp Video 2026-04-13 at 12.16.50.mp4\" -ss 00:00:01 -frames:v 1 -q:v 3 \"thumbs/WhatsApp Video 2026-04-13 at 12.16.50.jpg\")",
+      "Bash(file /Users/asylkhan/Projects/eurooil/images/*.jpeg)",
+      "Bash(ls -lh /Users/asylkhan/Projects/eurooil/images/*.jpeg)",
+      "Bash(ls -lh /Users/asylkhan/Projects/eurooil/images/*.mp4)",
+      "Bash(git -C /Users/asylkhan/Projects/eurooil add index.html sitemap.xml robots.txt)",
+      "Bash(git -C /Users/asylkhan/Projects/eurooil commit -m ':*)",
+      "Bash(git -C /Users/asylkhan/Projects/eurooil push origin main)"
+    ]
+  }
+}
