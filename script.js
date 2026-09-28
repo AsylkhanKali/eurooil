@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // ========== VIDEO FRAMES ==========
+    document.querySelectorAll('.video-card > video').forEach(video => {
+        const frame = document.createElement('div');
+        frame.className = 'video-frame';
+        if (video.poster) frame.style.setProperty('--video-poster', `url("${video.poster}")`);
+        video.before(frame);
+        frame.appendChild(video);
+    });
+
     // ========== MOBILE NAVIGATION ==========
     const hamburger = document.getElementById('hamburger');
     const navMenu = document.querySelector('.nav-menu');
