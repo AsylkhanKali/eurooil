@@ -2265,3 +2265,56 @@ section {
     25% { transform: translateX(-6px); }
     75% { transform: translateX(6px); }
 }
+
+/* ========== PHOTO AND VIDEO GALLERY ========== */
+.media-subheading {
+    margin: 2.5rem 0 1rem;
+    color: var(--primary-dark);
+    font-size: 1.35rem;
+}
+
+.photo-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.photo-card {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.photo-card img {
+    display: block;
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.photo-card figcaption,
+.media-caption {
+    margin: 0;
+    padding: 0.75rem 1rem;
+    color: var(--gray-700);
+    background: var(--white);
+    font-size: 0.88rem;
+}
+
+.video-player-portrait {
+    width: 100%;
+    height: 360px;
+    object-fit: contain;
+    background: #081a30;
+}
+
+@media (max-width: 1024px) {
+    .photo-gallery-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .photo-gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .photo-card img { height: 180px; }
+}
