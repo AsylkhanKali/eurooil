@@ -2352,6 +2352,10 @@ section {
     background: #13223c;
 }
 
+.video-card-vertical {
+    aspect-ratio: auto;
+}
+
 .video-frame::before {
     content: "";
     position: absolute;
