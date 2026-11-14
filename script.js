@@ -253,7 +253,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (message) waText += `💬 Комментарий: ${message}\n`;
             waText += `━━━━━━━━━━━━━━━`;
 
-            window.open(`https://wa.me/77080075007?text=${encodeURIComponent(waText)}`, '_blank');
+            window.open(`https://wa.me/77088880034?text=${encodeURIComponent(waText)}`, '_blank');
 
             const btn = contactForm.querySelector('button[type="submit"]');
             btn.innerHTML = '<i class="fas fa-check"></i> Заявка отправлена!';
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const phone = inputs[1].value;
 
             let waText = `Заказ обратного звонка с сайта EuroOil.\nИмя: ${name}\nТелефон: ${phone}`;
-            window.open(`https://wa.me/77080075007?text=${encodeURIComponent(waText)}`, '_blank');
+            window.open(`https://wa.me/77088880034?text=${encodeURIComponent(waText)}`, '_blank');
 
             callbackForm.reset();
             if (callbackModal) {
