@@ -91,7 +91,7 @@ npx serve .
 ## 📞 Контакты
 
 - **Телефон:** +7 708 888 00 34
-- **Email:** onixcp23@gmail.com
+- **Email:** bazartay.kaliyev.83@gmail.com
 - **Instagram:** @eurooil._.a
 - **WhatsApp:** +7 708 888 00 34
 
